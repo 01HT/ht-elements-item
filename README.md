@@ -1,1 +1,1 @@
-# ht-elements-item-preview-image
+# ht-elements-item
