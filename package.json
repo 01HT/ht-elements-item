@@ -13,6 +13,8 @@
     "@polymer/paper-spinner": "^3.0.0-pre.18",
     "@polymer/paper-tabs": "^3.0.0-pre.18",
     "ht-chip": "git+https://github.com/maksimyurkov/ht-chip.git",
-    "ht-client-helper-functions": "https://github.com/maksimyurkov/ht-client-helper-functions"
+    "ht-client-helper-functions":
+      "https://github.com/maksimyurkov/ht-client-helper-functions",
+    "quill": "^1.3.5"
   }
 }

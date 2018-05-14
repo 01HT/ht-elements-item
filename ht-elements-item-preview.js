@@ -66,7 +66,7 @@ class HTElementsItemPreview extends LitElement {
             display: flex;
             flex-wrap: wrap;
             justify-content:center;
-            margin-top:16px;
+            margin-top:-24px;
         }
 
         #demo-button {
@@ -159,15 +159,15 @@ class HTElementsItemPreview extends LitElement {
         <section id="actions">
             <a href=${
               itemData.demoURL
-            } target="_blank" hidden?=${itemData.videoId === ""}>
+            } target="_blank" hidden?=${itemData.demoURL === ""}>
                 <paper-icon-button id="demo-button" icon="ht-elements-item-preview:remove-red-eye"></paper-icon-button>
             </a>
             <paper-icon-button id="youtube-button" icon="ht-elements-item-preview:youtube" on-click=${e => {
               this._changeActive(e);
-            }}></paper-icon-button>
+            }} hidden?=${itemData.videoId === ""}></paper-icon-button>
             <paper-icon-button id="gif-button" icon="ht-elements-item-preview:gif" on-click=${e => {
               this._changeActive(e);
-            }}></paper-icon-button>
+            }} hidden?=${itemData.gifURL === ""}></paper-icon-button>
             <paper-icon-button id="image-button" icon="ht-elements-item-preview:image" on-click=${e => {
               this._changeActive(e);
             }}></paper-icon-button>

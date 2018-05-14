@@ -3,7 +3,19 @@ import { LitElement, html } from "@polymer/lit-element";
 // import "@polymer/paper-spinner/paper-spinner.js";
 import "./ht-elements-item-breadcrumbs.js";
 import "./ht-elements-item-preview.js";
-// import "./ht-elements-catalog-filter.js";
+import "./ht-elements-item-description.js";
+
+import "./ht-elements-item-author.js";
+import "./ht-elements-item-sales.js";
+
+import "./ht-elements-item-data-section.js";
+import "./ht-elements-item-date.js";
+
+import "./ht-elements-item-block-platform.js";
+import "./ht-elements-item-block-browsers.js";
+import "./ht-elements-item-block-tools.js";
+import "./ht-elements-item-block-tags.js";
+
 // import "./ht-elements-catalog-list.js";
 // import "./ht-elements-catalog-actions.js";
 // import "./ht-elements-catalog-selected-filters.js";
@@ -22,8 +34,11 @@ class HTElementsItem extends LitElement {
         }
 
         h1 {
-            font-size: 28px; 
+            font-size: 36px;
             font-weight: 400;
+            color:#424242;
+            margin-top:0;
+            margin-bottom: 16px;
         }
 
         paper-spinner { 
@@ -43,6 +58,18 @@ class HTElementsItem extends LitElement {
             position:relative;
         }
 
+        ht-elements-item-description {
+        }
+
+        ht-elements-item-sales {
+          margin-top:32px;
+        }
+
+        ht-elements-item-data-section  {
+          margin-top:32px;
+        }
+        
+
         #container {
 
         }
@@ -56,19 +83,54 @@ class HTElementsItem extends LitElement {
         }
 
         #layout {
-            display:flex;
-            flex-wrap:wrap;
+            display:grid;
+            grid-gap: 32px;
+            margin-top:32px;
         }
 
         #preview {
-            width:100%;
-            max-width:800px;
+          grid-column: 1 / 9; 
+          grid-row: 1;
         }
 
+        #sidebar {
+          grid-column: 10 / 13; 
+          grid-row: 1 / 3;
+        }
 
-    
+        #description {
+          grid-column: 1 / 9;
+          grid-row: 2;
+        }
+
         #spinner-container[hidden], #layout[hidden] {
             display: none;
+        }
+
+        @media (max-width:900px) {
+          h1 {
+            font-size:24px;
+          }
+
+          #layout {
+            grid-gap: 32px;
+            margin-top:16px;
+          }
+
+          #preview {
+          grid-column: 1 / 13; 
+          grid-row: 1;
+        }
+
+        #sidebar {
+          grid-column: 1 / 13; 
+          grid-row: 2;
+        }
+
+        #description {
+          grid-column: 1 / 13;
+          grid-row: 3;
+        }
         }
     </style>
     <div id="container">
@@ -82,7 +144,7 @@ class HTElementsItem extends LitElement {
                   itemData.categories
                 }></ht-elements-item-breadcrumbs>
                 <ht-elements-item-preview data=${itemData}></ht-elements-item-preview>
-            <section>
+            </section>
             <section id="sidebar">
                 <ht-elements-item-buy data=${
                   itemData.license
@@ -90,21 +152,51 @@ class HTElementsItem extends LitElement {
                 <ht-elements-item-author data=${
                   itemData.usersData
                 }></ht-elements-item-author>
-                <ht-elements-item-date data=${
-                  itemData.created
-                }></ht-elements-item-date>
-                <ht-elements-item-date data=${
-                  itemData.updated
-                }></ht-elements-item-date>
-                <ht-elements-item-attributes data=${
-                  itemData.attributes
-                }></ht-elements-item-attributes>
-            <section>
+                <ht-elements-item-sales data=${
+                  itemData.sales
+                }></ht-elements-item-sales>
+
+                <ht-elements-item-data-section name="Последнее обновление">
+                  <ht-elements-item-date data=${
+                    itemData.updated
+                  }></ht-elements-item-date>
+                </ht-elements-item-data-section>
+                
+                <ht-elements-item-data-section name="Дата создания">
+                  <ht-elements-item-date data=${
+                    itemData.created
+                  }></ht-elements-item-date>
+                </ht-elements-item-data-section>
+
+                <ht-elements-item-data-section name="Платформа">
+                  <ht-elements-item-block-platform data=${
+                    itemData.attributes
+                  }></ht-elements-item-block-platform>
+                </ht-elements-item-data-section>
+
+                <ht-elements-item-data-section name="Совместимые браузеры">
+                  <ht-elements-item-block-browsers data=${
+                    itemData.attributes
+                  }></ht-elements-item-block-browsers>
+                </ht-elements-item-data-section>
+
+                <ht-elements-item-data-section name="Инструменты">
+                  <ht-elements-item-block-tools data=${
+                    itemData.attributes
+                  }></ht-elements-item-block-tools>
+                </ht-elements-item-data-section>
+
+                <ht-elements-item-data-section name="Теги">
+                  <ht-elements-item-block-tags data=${
+                    itemData.tags
+                  }></ht-elements-item-block-tags>
+                </ht-elements-item-data-section>
+            </section>
             <section id="description">
                 <ht-elements-item-description data=${
                   itemData.description
                 }></ht-elements-item-description>
-            <section>
+            </section>
         </section>
     </div>
 `;
@@ -152,124 +244,7 @@ class HTElementsItem extends LitElement {
   constructor() {
     super();
     this.itemData = {};
-    //   this.firstLoading = true;
-    //   this.loading = false;
-    //   // view
-    //   let view = localStorage.getItem("catalog-list-view-mode");
-    //   view === null ? (this.view = "grid") : (this.view = view);
   }
-
-  // ready() {
-  //     super.ready();
-  //     this.shadowRoot.addEventListener("parameters-changed", e => {
-  //         e.stopPropagation();
-  //         const parameters = e.detail;
-  //         this._updateLocation(parameters);
-  //     });
-  //     this.shadowRoot.addEventListener("view-changed", e => {
-  //         e.stopPropagation();
-  //         const view = e.detail;
-  //         this._changeView(view);
-  //     });
-  //     this.shadowRoot.addEventListener("close-chip", e => {
-  //         e.stopPropagation();
-  //     });
-  // }
-
-  // get search() {
-  //     return this.shadowRoot.querySelector("ht-elements-catalog-search");
-  // }
-
-  // get filter() {
-  //     return this.shadowRoot.querySelector("#main ht-elements-catalog-filter");
-  // }
-
-  // get filterInSearch() {
-  //     return this.shadowRoot.querySelector(
-  //         "ht-elements-catalog-search ht-elements-catalog-filter"
-  //     );
-  // }
-
-  // get list() {
-  //     return this.shadowRoot.querySelector("ht-elements-catalog-list");
-  // }
-
-  // get selectedFilters() {
-  //     return this.shadowRoot.querySelector(
-  //         "ht-elements-catalog-selected-filters"
-  //     );
-  // }
-
-  // async _setParameters(path) {
-  //     let parameters = await getParametersFromPath(path);
-  //     this.parameters = parameters;
-  //     this._getItems(parameters);
-  // }
-
-  // async _getItems(parameters) {
-  //     try {
-  //         this.loading = true;
-  //         // let response = await window.firebase
-  //         //   .functions()
-  //         //   .httpsCallable("dbItemsGetCatalogItems")({
-  //         //   path: path
-  //         // });
-  //         // let data = await callFirebaseHTTPFunction({
-  //         //   name: "httpsGetCatalogPageDataIndex",
-  //         //   options: {
-  //         //     method: "POST",
-  //         //     headers: new Headers({
-  //         //       "Content-Type": "application/json"
-  //         //     }),
-  //         //     body: JSON.stringify(parameters)
-  //         //   }
-  //         // });
-  //         let data = await callTestHTTPFunction(
-  //             "httpsGetCatalogPageDataIndex",
-  //             parameters
-  //         );
-  //         await this._setData(data);
-  //         if (this.firstLoading) this.firstLoading = false;
-  //         this.loading = false;
-  //     } catch (error) {
-  //         console.log("_getItems: " + error.message);
-  //     }
-  // }
-
-  // async _setData(data) {
-  //     try {
-  //         this.list.data = data.items;
-  //         this.filter.data = data.filter;
-  //         this.filterInSearch.data = data.filter;
-  //         this.selectedFilters.data = data.items.length;
-  //         this.loading = false;
-  //     } catch (err) {
-  //         console.log("_setData: " + err.message);
-  //     }
-  // }
-
-  // async _updateLocation(parameters) {
-  //     let path = await getPathFromParameters(parameters);
-  //     if (this.path === path) return;
-  //     history.pushState(null, "", path);
-  //     this.dispatchEvent(
-  //         new CustomEvent("change-location", {
-  //             bubbles: true,
-  //             composed: true,
-  //             detail: path
-  //         })
-  //     );
-  // }
-
-  // _changeView(view) {
-  //     localStorage.setItem("catalog-list-view-mode", view);
-  //     this.view = view;
-  // }
-
-  // _showSelectedFilters(parameters) {
-  //     if (Object.keys(parameters).length) return true;
-  //     return false;
-  // }
 }
 
 customElements.define(HTElementsItem.is, HTElementsItem);
