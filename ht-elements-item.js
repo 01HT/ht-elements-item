@@ -1,28 +1,19 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 // import "@polymer/paper-spinner/paper-spinner.js";
-import "./ht-elements-item-breadcrumbs.js";
 import "./ht-elements-item-preview.js";
 import "./ht-elements-item-description.js";
-
+import "./ht-elements-item-buy.js";
 import "./ht-elements-item-author.js";
 import "./ht-elements-item-sales.js";
-
 import "./ht-elements-item-data-section.js";
 import "./ht-elements-item-date.js";
-
+import "./ht-elements-item-category.js";
 import "./ht-elements-item-block-platform.js";
 import "./ht-elements-item-block-browsers.js";
 import "./ht-elements-item-block-tools.js";
 import "./ht-elements-item-block-tags.js";
-
-// import "./ht-elements-catalog-list.js";
-// import "./ht-elements-catalog-actions.js";
-// import "./ht-elements-catalog-selected-filters.js";
-// import {
-//   callTestHTTPFunction,
-//   callFirebaseHTTPFunction
-// } from "ht-client-helper-functions";
+import "./ht-elements-item-copyright.js";
 class HTElementsItem extends LitElement {
   _render({ loading, itemData }) {
     return html`
@@ -41,16 +32,15 @@ class HTElementsItem extends LitElement {
             margin-bottom: 16px;
         }
 
-        paper-spinner { 
-            --paper-spinner-stroke-width: 4px; 
-            margin-top: 64px; 
-            width: 64px; 
-            height: 64px;
-            }
+        paper-spinner {
+          --paper-spinner-stroke-width: 4px; 
+          margin-top: 64px; 
+          width: 64px; 
+          height: 64px;
         }
 
-        ht-elements-item-breadcrumbs {
-
+        ht-elements-item-author {
+            margin-top: 32px;
         }
 
         ht-elements-item-preview {
@@ -68,7 +58,10 @@ class HTElementsItem extends LitElement {
         ht-elements-item-data-section  {
           margin-top:32px;
         }
-        
+
+        ht-elements-item-copyright {
+          margin-top:32px;
+        }
 
         #container {
 
@@ -113,7 +106,7 @@ class HTElementsItem extends LitElement {
           }
 
           #layout {
-            grid-gap: 32px;
+            grid-gap: 8px;
             margin-top:16px;
           }
 
@@ -131,7 +124,7 @@ class HTElementsItem extends LitElement {
           grid-column: 1 / 13;
           grid-row: 3;
         }
-        }
+      }
     </style>
     <div id="container">
         <div id="spinner-container" hidden?=${!loading}>
@@ -140,18 +133,17 @@ class HTElementsItem extends LitElement {
         <section id="layout" hidden?=${loading}>
             <section id="preview">
                 <h1>${itemData.name}</h1>
-                <ht-elements-item-breadcrumbs data=${
-                  itemData.categories
-                }></ht-elements-item-breadcrumbs>
                 <ht-elements-item-preview data=${itemData}></ht-elements-item-preview>
             </section>
             <section id="sidebar">
                 <ht-elements-item-buy data=${
                   itemData.license
                 }></ht-elements-item-buy>
+
                 <ht-elements-item-author data=${
                   itemData.usersData
                 }></ht-elements-item-author>
+
                 <ht-elements-item-sales data=${
                   itemData.sales
                 }></ht-elements-item-sales>
@@ -166,6 +158,12 @@ class HTElementsItem extends LitElement {
                   <ht-elements-item-date data=${
                     itemData.created
                   }></ht-elements-item-date>
+                </ht-elements-item-data-section>
+
+                <ht-elements-item-data-section name="Категория">
+                  <ht-elements-item-category data=${
+                    itemData.categories
+                  }></ht-elements-item-category>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Платформа">
@@ -191,6 +189,10 @@ class HTElementsItem extends LitElement {
                     itemData.tags
                   }></ht-elements-item-block-tags>
                 </ht-elements-item-data-section>
+
+                <ht-elements-item-copyright data=${
+                  itemData.copyright
+                }></ht-elements-item-copyright>
             </section>
             <section id="description">
                 <ht-elements-item-description data=${

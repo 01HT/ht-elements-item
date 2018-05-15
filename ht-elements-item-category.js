@@ -3,8 +3,9 @@ import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
 // import "@polymer/iron-iconset-svg";
 // import "@polymer/iron-icon";
+// import "ht-chip";
 
-class HTElementsItemBreadcrumbs extends LitElement {
+class HTElementsItemCategory extends LitElement {
   _render({ items }) {
     return html`
     <style>
@@ -14,28 +15,23 @@ class HTElementsItemBreadcrumbs extends LitElement {
             box-sizing: border-box;
         }
 
-        a { 
-            display:block; 
-            color:inherit; 
-            text-decoration: none; 
-            color: var(--secondary-text-color);
-        } 
-        
-        a:hover { 
-            text-decoration: underline; 
-        }
-
         iron-icon { 
             color: var(--secondary-text-color); 
+            margin-bottom: 8px;
         }
     
         #container {
             display: flex;
+            flex-wrap: wrap;
             align-items:center;
-            flex-wrap:wrap;
+            margin-top: 16px;
+        }
+    
+        a {
+            margin-bottom: 8px;
         }
     </style>
-    <iron-iconset-svg size="24" name="ht-elements-item-breadcrumbs">
+    <iron-iconset-svg size="24" name="ht-elements-item-category">
         <svg>
             <defs>
                 <g id="chevron-right">
@@ -45,20 +41,22 @@ class HTElementsItemBreadcrumbs extends LitElement {
         </svg>
     </iron-iconset-svg>
     <div id="container">
-        <a href="/catalog">Каталог</a>
+      <a class="item" href="/catalog">
+        <ht-chip label="Все категории" shadow></ht-chip>
+      </a>
         ${repeat(
           items,
-          item => html`
-            <iron-icon icon="ht-elements-item-breadcrumbs:chevron-right"></iron-icon><a href=${
-              item.href
-            }>${item.name}</a>`
+          item => html`<iron-icon icon="ht-elements-item-category:chevron-right"></iron-icon>
+      <a class="item" href=${item.href}>
+              <ht-chip label=${item.name} shadow></ht-chip>
+            </a>`
         )}
     </div>
 `;
   }
 
   static get is() {
-    return "ht-elements-item-breadcrumbs";
+    return "ht-elements-item-category";
   }
 
   static get properties() {
@@ -90,4 +88,4 @@ class HTElementsItemBreadcrumbs extends LitElement {
   }
 }
 
-customElements.define(HTElementsItemBreadcrumbs.is, HTElementsItemBreadcrumbs);
+customElements.define(HTElementsItemCategory.is, HTElementsItemCategory);
