@@ -27,7 +27,7 @@ class HTElementsItemBlockBrowsers extends LitElement {
     <div id="container">
           ${repeat(
             items,
-            item => html`<a class="item" href="/catalog?compatible-browsers=${item.name.toLowerCase()}"> 
+            item => html`<a class="item" href="/catalog?browsers=${item.name.toLowerCase()}"> 
               <ht-chip label=${item.name} shadow image?=${
               item.imageURL ? true : false
             }>

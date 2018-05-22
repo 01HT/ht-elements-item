@@ -58,7 +58,7 @@ class HTElementsItemBuy extends LitElement {
             display:flex;
             flex-direction:column;
             position:relative;
-            padding: 8px 16px 16px 16px;
+            padding: 24px;
             border-radius:3px;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
         }
@@ -67,7 +67,6 @@ class HTElementsItemBuy extends LitElement {
             display: flex;
             align-items: center;
             flex-wrap: nowrap;
-            height: 70px;
         }
 
         #info {
@@ -77,7 +76,6 @@ class HTElementsItemBuy extends LitElement {
 
         #changer paper-dropdown-menu {
             margin-right: 16px;
-            padding-bottom: 18px;
             flex: 1;
         }
 
@@ -97,6 +95,7 @@ class HTElementsItemBuy extends LitElement {
         #description {
             display:flex;
             flex-direction:column;
+            margin-top:8px;
         }
 
         #description > div {
@@ -171,7 +170,7 @@ class HTElementsItemBuy extends LitElement {
                 <iron-icon id="info" icon="ht-elements-item-buy:info-outline"></iron-icon>
                 <paper-tooltip>${selected.description}</paper-tooltip>
             </div>
-            <paper-dropdown-menu disabled?=${
+            <paper-dropdown-menu no-label-float disabled?=${
               license && license[0] && license[0].openSource ? true : false
             } no-animations on-iron-select=${e => {
       this._licenseChanged();
