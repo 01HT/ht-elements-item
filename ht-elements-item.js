@@ -15,7 +15,7 @@ import "./ht-elements-item-block-tools.js";
 import "./ht-elements-item-block-tags.js";
 import "./ht-elements-item-copyright.js";
 class HTElementsItem extends LitElement {
-  _render({ loading, itemData }) {
+  _render({ loading, itemData, itemId, cartChangeInProcess, signedIn }) {
     return html`
     <style>
         :host {
@@ -77,22 +77,20 @@ class HTElementsItem extends LitElement {
 
         #layout {
             display:grid;
+            grid-template-columns: 1fr 360px;
             grid-gap: 32px;
             margin-top:32px;
         }
 
         #preview {
-          grid-column: 1 / 9; 
           grid-row: 1;
         }
 
         #sidebar {
-          grid-column: 10 / 13; 
           grid-row: 1 / 3;
         }
 
         #description {
-          grid-column: 1 / 9;
           grid-row: 2;
         }
 
@@ -106,24 +104,16 @@ class HTElementsItem extends LitElement {
           }
 
           #layout {
-            grid-gap: 8px;
-            margin-top:16px;
+            grid-template-columns: 1fr;
           }
 
-          #preview {
-          grid-column: 1 / 13; 
-          grid-row: 1;
-        }
+          #sidebar {
+            grid-row: 2;
+          }
 
-        #sidebar {
-          grid-column: 1 / 13; 
-          grid-row: 2;
-        }
-
-        #description {
-          grid-column: 1 / 13;
-          grid-row: 3;
-        }
+          #description {
+            grid-row: 3;
+          }
       }
     </style>
     <div id="container">
@@ -136,9 +126,12 @@ class HTElementsItem extends LitElement {
                 <ht-elements-item-preview data=${itemData}></ht-elements-item-preview>
             </section>
             <section id="sidebar">
-                <ht-elements-item-buy data=${
-                  itemData.license
-                }></ht-elements-item-buy>
+                <ht-elements-item-buy signedIn=${signedIn} data=${{
+      itemId: itemId,
+      license: itemData.license,
+      cartChangeInProcess: cartChangeInProcess
+    }}
+      ></ht-elements-item-buy>
 
                 <ht-elements-item-author data=${
                   itemData.usersData
@@ -212,11 +205,21 @@ class HTElementsItem extends LitElement {
     return {
       itemId: String,
       loading: Boolean,
-      itemData: Object
+      itemData: Object,
+      data: String,
+      cartChangeInProcess: Boolean,
+      signedIn: Boolean
     };
   }
 
-  set itemId(itemId) {
+  constructor() {
+    super();
+    this.itemData = {};
+  }
+
+  set data(itemId) {
+    if (itemId === this.itemId) return;
+    this.itemId = itemId;
     this._getItemData(itemId);
   }
 
@@ -241,11 +244,6 @@ class HTElementsItem extends LitElement {
     } catch (error) {
       console.log("_getItemData: " + error.message);
     }
-  }
-
-  constructor() {
-    super();
-    this.itemData = {};
   }
 }
 

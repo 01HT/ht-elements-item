@@ -8,11 +8,12 @@ import { repeat } from "lit-html/lib/repeat.js";
 // import "@polymer/iron-icon";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-listbox";
+// import "@polymer/paper-spinner";
 // import "@polymer/paper-item";
 // import "@polymer/paper-tooltip";
 
 class HTElementsItemBuy extends LitElement {
-  _render({ license, selected, helloTemplate }) {
+  _render({ license, selected, cartChangeInProcess, signedIn }) {
     return html`
     <style>
         :host {
@@ -27,11 +28,14 @@ class HTElementsItemBuy extends LitElement {
             text-decoration: none;
         }
 
-        paper-button {
-            margin: 0;
+        #actions > * {
             width: calc(50% - 8px);
         }
-        
+
+        paper-button{
+            margin:0;
+        }
+
         paper-button iron-icon {
             padding-right: 4px;
         }
@@ -46,12 +50,17 @@ class HTElementsItemBuy extends LitElement {
         }
 
         paper-tooltip {
-            
             --paper-tooltip: {
                 font-size:13px;
                 line-height:1.3;
                 padding:8px;
             }
+        }
+
+        paper-spinner {
+            width: 24px;
+            height: 24px;
+            --paper-spinner-stroke-width: 2px;
         }
 
         #container {
@@ -100,6 +109,7 @@ class HTElementsItemBuy extends LitElement {
 
         #description > div {
             margin-bottom: 4px;
+            float:left;
         }
 
         .description-item {
@@ -128,13 +138,21 @@ class HTElementsItemBuy extends LitElement {
             font-size:14px;
         }
 
+        #licenses-details > a {
+            float:left;
+        }
+
         #actions {
             display:flex;
             justify-content: space-between;
             margin-top: 16px;
         }
-
+        
         #buy-now {
+            position:relative;
+        }
+
+        #buy-now:not([disabled]) {
             background: var(--accent-color);
             color: #fff;
         }
@@ -193,8 +211,7 @@ class HTElementsItemBuy extends LitElement {
         <section id="description">
             ${repeat(
               selected.buyDescription,
-              item =>
-                html`<div><div class="description-item">
+              item => html`<div><div class="description-item">
                 <iron-icon icon$="ht-elements-item-buy:${
                   item.permission ? "check" : "clear"
                 }"></iron-icon>
@@ -215,11 +232,22 @@ class HTElementsItemBuy extends LitElement {
             <paper-button id="add-in-basket" raised on-click=${e => {
               this._addToCart();
             }}>
-                <iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>
-            <paper-button id="buy-now" raised on-click=${e => {
-              this._buyNow();
-            }}>
-                <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас</paper-button>
+            ${
+              cartChangeInProcess
+                ? html`<paper-spinner active></paper-spinner>`
+                : html`<iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину`
+            }
+                </paper-button>
+                <div>
+                    <paper-button id="buy-now" raised disabled?=${!signedIn} on-click=${e => {
+      console.log(cartChangeInProcess);
+      this._buyNow();
+    }}>
+                    <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
+                    </paper-button>
+                    <paper-tooltip>Для быстрой покупки надо войти в приложение.</paper-tooltip>
+                </div>
+            
         </div>
     </div>
 `;
@@ -231,8 +259,11 @@ class HTElementsItemBuy extends LitElement {
 
   static get properties() {
     return {
+      itemId: String,
       license: Array,
-      selected: Object
+      selected: Object,
+      cartChangeInProcess: Boolean,
+      signedIn: Boolean
     };
   }
 
@@ -248,8 +279,21 @@ class HTElementsItemBuy extends LitElement {
     return this.shadowRoot.querySelector("paper-listbox");
   }
 
-  set data(license) {
-    this.license = license;
+  set data(data) {
+    let license = data.license;
+    this.cartChangeInProcess = data.cartChangeInProcess;
+    if (
+      this.cartChangeInProcess ||
+      license === undefined ||
+      this.itemId === data.itemId
+    )
+      return;
+    this.itemId = data.itemId;
+    let result = [];
+    for (let licensetypeId in license) {
+      result.push(license[licensetypeId]);
+    }
+    this.license = result.reverse();
     this.listbox.selected = 0;
   }
 
@@ -261,6 +305,24 @@ class HTElementsItemBuy extends LitElement {
     }
     selected.buyDescription = buyDescription;
     this.selected = selected;
+  }
+
+  _addToCart() {
+    if (this.cartChangeInProcess) return;
+    this.dispatchEvent(
+      new CustomEvent("add-to-cart", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          itemId: this.itemId,
+          licensetypeId: this.selected.licensetypeId
+        }
+      })
+    );
+  }
+
+  _buyNow() {
+    console.log("_buyNow");
   }
 }
 
