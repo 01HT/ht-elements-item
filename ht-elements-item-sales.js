@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-// import "@polymer/iron-iconset-svg";
-// import "@polymer/iron-icon";
+import "@polymer/iron-iconset-svg";
+import "@polymer/iron-icon";
 
 class HTElementsItemSales extends LitElement {
   _render({ sales }) {

@@ -1,9 +1,8 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-// import "@polymer/paper-ripple";
-// import "@polymer/iron-iconset-svg";
-// import "@polymer/iron-icon";
-// import "@polymer/paper-icon-button";
+import "@polymer/iron-iconset-svg";
+import "@polymer/iron-icon";
+import "@polymer/paper-icon-button";
 import "ht-image";
 
 class HTElementsItemPreview extends LitElement {

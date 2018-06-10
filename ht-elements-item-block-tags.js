@@ -1,8 +1,8 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
-// import "@polymer/iron-icon";
-// import "ht-chip";
+import "@polymer/iron-icon";
+import "ht-chip";
 class HTElementsItemBlockTags extends LitElement {
   _render({ items }) {
     return html`

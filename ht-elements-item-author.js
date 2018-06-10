@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-// import "@polymer/paper-button";
-// import "ht-user-avatar";
+import "@polymer/paper-button";
+import "ht-user-avatar";
 
 class HTElementsItemAuthor extends LitElement {
   _render({ usersData }) {
@@ -50,7 +50,7 @@ class HTElementsItemAuthor extends LitElement {
         }
 
         #portfolio {
-            text-decoration: none;;
+          text-decoration: none;
         }
     </style>
     <div id="container">

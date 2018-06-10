@@ -2,15 +2,14 @@
 import { LitElement, html } from "@polymer/lit-element";
 import { render } from "lit-html";
 import { repeat } from "lit-html/lib/repeat.js";
-// import "@polymer/paper-button";
-// import "@polymer/paper-ripple";
-// import "@polymer/iron-iconset-svg";
-// import "@polymer/iron-icon";
+import "@polymer/paper-button";
+import "@polymer/iron-iconset-svg";
+import "@polymer/iron-icon";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-listbox";
-// import "@polymer/paper-spinner";
-// import "@polymer/paper-item";
-// import "@polymer/paper-tooltip";
+import "@polymer/paper-spinner";
+import "@polymer/paper-item";
+import "@polymer/paper-tooltip";
 
 class HTElementsItemBuy extends LitElement {
   _render({ license, selected, cartChangeInProcess, signedIn }) {

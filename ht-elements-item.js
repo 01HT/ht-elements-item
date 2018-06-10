@@ -1,6 +1,6 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-// import "@polymer/paper-spinner/paper-spinner.js";
+import "@polymer/paper-spinner/paper-spinner.js";
 import "./ht-elements-item-preview.js";
 import "./ht-elements-item-description.js";
 import "./ht-elements-item-buy.js";

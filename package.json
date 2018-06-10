@@ -13,10 +13,11 @@
     "@polymer/paper-dropdown-menu": "^3.0.0-pre.17",
     "@polymer/paper-listbox": "^3.0.0-pre.17",
     "@polymer/paper-spinner": "^3.0.0-pre.17",
-    "@polymer/paper-tabs": "^3.0.0-pre.17",
+    "@polymer/paper-tooltip": "^3.0.0-pre.17",
+    "ht-user-avatar": "git+https://github.com/maksimyurkov/ht-user-avatar.git",
+    "ht-image": "git+https://github.com/maksimyurkov/ht-image.git",
     "ht-chip": "git+https://github.com/maksimyurkov/ht-chip.git",
     "ht-date": "git+https://github.com/maksimyurkov/ht-date.git",
-    "ht-client-helper-functions": "https://github.com/maksimyurkov/ht-client-helper-functions",
     "quill": "^1.3.5"
   }
 }
