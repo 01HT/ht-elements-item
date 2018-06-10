@@ -7,8 +7,8 @@ import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-listbox";
-import "@polymer/paper-spinner";
-import "@polymer/paper-item";
+import "@polymer/paper-spinner/paper-spinner.js";
+import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-tooltip";
 
 class HTElementsItemBuy extends LitElement {
