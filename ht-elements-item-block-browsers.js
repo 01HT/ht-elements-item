@@ -27,7 +27,7 @@ class HTElementsItemBlockBrowsers extends LitElement {
     <div id="container">
           ${repeat(
             items,
-            item => html`<a class="item" href="/catalog?browsers=${item.name.toLowerCase()}"> 
+            item => html`<a class="item" href="/catalog?browsers=${item.name}"> 
               <ht-chip label=${item.name} shadow image?=${
               item.imageURL ? true : false
             }>
@@ -64,7 +64,8 @@ class HTElementsItemBlockBrowsers extends LitElement {
 
   set data(attributes) {
     let items = [];
-    for (let attribute of attributes) {
+    for (let attributeId in attributes) {
+      let attribute = attributes[attributeId];
       if (attribute.parentId === this.browsersId) items.push(attribute);
     }
     this.items = items;

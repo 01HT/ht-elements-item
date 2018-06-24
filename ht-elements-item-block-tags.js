@@ -27,7 +27,7 @@ class HTElementsItemBlockTags extends LitElement {
       <div id="container">
           ${repeat(
             items,
-            item => html`<a class="item" href="/catalog?tags=${item.name.toLowerCase()}"> 
+            item => html`<a class="item" href="/catalog?tags=${item.name}"> 
               <ht-chip label=${item.name} shadow></ht-chip>
             </a>`
           )}
@@ -52,7 +52,11 @@ class HTElementsItemBlockTags extends LitElement {
   }
 
   set data(tags) {
-    this.items = tags;
+    let items = [];
+    for (let tagId in tags) {
+      items.push(tags[tagId]);
+    }
+    this.items = items;
   }
 }
 

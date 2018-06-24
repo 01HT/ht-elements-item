@@ -27,7 +27,7 @@ class HTElementsItemBlockTools extends LitElement {
     <div id="container">
           ${repeat(
             items,
-            item => html`<a class="item" href="/catalog?tools=${item.name.toLowerCase()}"> 
+            item => html`<a class="item" href="/catalog?tools=${item.name}"> 
               <ht-chip label=${item.name} shadow image?=${
               item.imageURL ? true : false
             }>
@@ -64,7 +64,8 @@ class HTElementsItemBlockTools extends LitElement {
 
   set data(attributes) {
     let items = [];
-    for (let attribute of attributes) {
+    for (let attributeId in attributes) {
+      let attribute = attributes[attributeId];
       if (attribute.parentId === this.toolsId) items.push(attribute);
     }
     this.items = items;

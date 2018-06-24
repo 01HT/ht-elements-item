@@ -26,6 +26,10 @@ class HTElementsItemCategory extends LitElement {
             align-items:center;
             margin-top: 16px;
         }
+
+        iron-icon:first-child {
+          display:none;
+        }
     
         a {
             margin-bottom: 8px;
@@ -41,9 +45,9 @@ class HTElementsItemCategory extends LitElement {
         </svg>
     </iron-iconset-svg>
     <div id="container">
-      <a class="item" href="/catalog">
+      <!--<a class="item" href="/catalog">
         <ht-chip label="Все категории" shadow></ht-chip>
-      </a>
+      </a>-->
         ${repeat(
           items,
           item => html`<iron-icon icon="ht-elements-item-category:chevron-right"></iron-icon>
@@ -70,21 +74,52 @@ class HTElementsItemCategory extends LitElement {
     this.items = [];
   }
 
-  set data(categories) {
-    let items = [];
-    for (let item of categories) {
-      item.href = this._getHref(categories, item.name);
-      items.push(item);
+  async _addCategoryToItems(parentId, categories, items) {
+    for (let categoryId in categories) {
+      let category = categories[categoryId];
+      if (category.parentId === parentId) {
+        if (category.parentId === parentId) {
+          items.push(category);
+          let nextAdd = await this._addCategoryToItems(
+            categoryId,
+            categories,
+            items
+          );
+          return nextAdd;
+        }
+      }
     }
-    this.items = items;
+    return;
   }
 
-  _getHref(categories, categoryName) {
-    let href = "/catalog";
-    for (let category of categories) {
-      href += `/${category.name}`;
-      if (category.name === categoryName) return href.toLowerCase();
+  _addHrefToItems(items) {
+    try {
+      for (let index in items) {
+        let item = items[index];
+        if (index === "0") {
+          item.href = `/catalog/${item.name.toLowerCase()}`;
+        } else {
+          item.href = `${items[+index - 1].href}/${item.name.toLowerCase()}`;
+        }
+      }
+      return items;
+    } catch (error) {
+      console.log("_addHrefToItems: " + error.message);
     }
+  }
+
+  async _setData(categories) {
+    try {
+      let items = [];
+      await this._addCategoryToItems("root", categories, items);
+      this.items = this._addHrefToItems(items);
+    } catch (error) {
+      console.log("_setData: " + error.message);
+    }
+  }
+
+  set data(categories) {
+    this._setData(categories);
   }
 }
 

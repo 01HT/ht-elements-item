@@ -63,42 +63,47 @@ class HTElementsItemBlockPlatform extends LitElement {
   }
 
   async isPlatformAttribute(attributeId, attributes, currentAttribute) {
-    for (let attribute of attributes) {
-      if (attribute.categoryId === attributeId) {
-        if (attribute.parentId === "root") return false;
-        if (attribute.parentId === this.platformId) {
-          currentAttribute.href = `/catalog?platform=${currentAttribute.name.toLowerCase()}`;
-          return currentAttribute;
-        } else {
-          let isPlatformAttribute = await this.isPlatformAttribute(
-            attribute.parentId,
-            attributes,
-            currentAttribute
-          );
-          return isPlatformAttribute;
-        }
-      }
+    let attribute = attributes[attributeId];
+    if (attribute === undefined || attribute.parentId === "root") return false;
+    if (attribute.parentId === this.platformId) {
+      currentAttribute.href = `/catalog?platform=${currentAttribute.name}`;
+      return currentAttribute;
+    } else {
+      let isPlatformAttribute = await this.isPlatformAttribute(
+        attribute.parentId,
+        attributes,
+        currentAttribute
+      );
+      return isPlatformAttribute;
     }
-    return false;
   }
 
-  async setItems(attributes) {
-    let items = [];
-    let promises = [];
-    for (let attribute of attributes) {
-      promises.push(
-        this.isPlatformAttribute(attribute.categoryId, attributes, attribute)
-      );
+  async _setData(attributes) {
+    try {
+      let items = [];
+      let promises = [];
+      for (let attributeId in attributes) {
+        let currentAttribute = attributes[attributeId];
+        promises.push(
+          this.isPlatformAttribute(attributeId, attributes, currentAttribute)
+        );
+      }
+      let results = await Promise.all(promises);
+      for (let result of results) {
+        if (result) items.push(result);
+      }
+      items.sort((a, b) => {
+        if (a.name > b.name) return 1;
+        if (a.name < b.name) return -1;
+      });
+      this.items = items;
+    } catch (error) {
+      console.log("_setData: " + error.message);
     }
-    let results = await Promise.all(promises);
-    for (let result of results) {
-      if (result) items.push(result);
-    }
-    this.items = items;
   }
 
   set data(attributes) {
-    this.setItems(attributes);
+    this._setData(attributes);
   }
 }
 

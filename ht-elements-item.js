@@ -25,11 +25,11 @@ class HTElementsItem extends LitElement {
         }
 
         h1 {
-            font-size: 36px;
-            font-weight: 400;
-            color:#424242;
-            margin-top:0;
-            margin-bottom: 16px;
+          font-size: 36px;
+          font-weight: 400;
+          color:#424242;
+          margin-top:0;
+          margin-bottom: 16px;
         }
 
         paper-spinner {
@@ -40,12 +40,12 @@ class HTElementsItem extends LitElement {
         }
 
         ht-elements-item-author {
-            margin-top: 32px;
+          margin-top: 32px;
         }
 
         ht-elements-item-preview {
-            margin-top: 32px;
-            position:relative;
+          margin-top: 32px;
+          position:relative;
         }
 
         ht-elements-item-description {
@@ -68,18 +68,19 @@ class HTElementsItem extends LitElement {
         }
     
         #spinner-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            align-items: center;
-            align-content: center;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          align-items: center;
+          align-content: center;
         }
 
         #layout {
-            display:grid;
-            grid-template-columns: 1fr 360px;
-            grid-gap: 32px;
-            margin-top:32px;
+          display:grid;
+          grid-template-columns: 1fr 360px;
+          grid-template-rows: auto 1fr;
+          grid-gap: 32px;
+          margin-top:32px;
         }
 
         #preview {
@@ -114,7 +115,7 @@ class HTElementsItem extends LitElement {
           #description {
             grid-row: 3;
           }
-      }
+        }
     </style>
     <div id="container">
         <div id="spinner-container" hidden?=${!loading}>
