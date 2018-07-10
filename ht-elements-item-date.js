@@ -1,6 +1,6 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "ht-date";
+import "@01ht/ht-date";
 
 class HTElementsItemDate extends LitElement {
   _render({ data }) {

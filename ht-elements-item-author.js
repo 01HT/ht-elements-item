@@ -1,7 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/paper-button";
-import "ht-user-avatar";
+import "@01ht/ht-user-avatar";
 
 class HTElementsItemAuthor extends LitElement {
   _render({ usersData }) {

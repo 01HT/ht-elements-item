@@ -3,7 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@polymer/paper-icon-button";
-import "ht-image";
+import "@01ht/ht-image";
 
 class HTElementsItemPreview extends LitElement {
   _render({ itemData, active }) {

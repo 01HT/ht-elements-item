@@ -1,6 +1,5 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { render } from "lit-html";
 import { repeat } from "lit-html/lib/repeat.js";
 import "@polymer/paper-button";
 import "@polymer/iron-iconset-svg";

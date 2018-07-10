@@ -2,7 +2,7 @@
 import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
 import "@polymer/iron-icon";
-import "ht-chip";
+import "@01ht/ht-chip";
 class HTElementsItemBlockPlatform extends LitElement {
   _render({ items }) {
     return html`

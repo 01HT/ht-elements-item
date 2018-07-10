@@ -3,7 +3,7 @@ import { LitElement, html } from "@polymer/lit-element";
 import { repeat } from "lit-html/lib/repeat.js";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
-import "ht-chip";
+import "@01ht/ht-chip";
 
 class HTElementsItemCategory extends LitElement {
   _render({ items }) {
