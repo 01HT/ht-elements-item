@@ -4,7 +4,8 @@ import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 
 class HTElementsItemSales extends LitElement {
-  _render({ sales }) {
+  render() {
+    const { sales } = this;
     return html`
     <style>
         :host {
@@ -58,7 +59,7 @@ class HTElementsItemSales extends LitElement {
 
   static get properties() {
     return {
-      sales: Number
+      sales: { type: Number }
     };
   }
 

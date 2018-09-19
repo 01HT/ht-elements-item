@@ -1,10 +1,12 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
+
 class HTElementsItemBlockTags extends LitElement {
-  _render({ items }) {
+  render() {
+    const { items } = this;
     return html`
       <style>
         :host {
@@ -42,7 +44,7 @@ class HTElementsItemBlockTags extends LitElement {
 
   static get properties() {
     return {
-      items: Array
+      items: { type: Array }
     };
   }
 

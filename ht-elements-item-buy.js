@@ -1,6 +1,6 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/paper-button";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
@@ -11,7 +11,8 @@ import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-tooltip";
 
 class HTElementsItemBuy extends LitElement {
-  _render({ license, selected, cartChangeInProcess, signedIn }) {
+  render() {
+    const { signedIn, license, selected, cartChangeInProcess } = this;
     return html`
     <style>
         :host {
@@ -82,7 +83,7 @@ class HTElementsItemBuy extends LitElement {
         }
 
         #changer paper-dropdown-menu {
-            margin-right: 16px;
+            margin-right: 8px;
             flex: 1;
         }
 
@@ -186,31 +187,33 @@ class HTElementsItemBuy extends LitElement {
                 <iron-icon id="info" icon="ht-elements-item-buy:info-outline"></iron-icon>
                 <paper-tooltip>${selected.description}</paper-tooltip>
             </div>
-            <paper-dropdown-menu no-label-float disabled?=${
+            <paper-dropdown-menu no-label-float ?disabled=${
               license && license[0] && license[0].openSource ? true : false
-            } no-animations on-iron-select=${e => {
+            } no-animations @iron-select=${e => {
       this._licenseChanged();
     }}>
-                <paper-listbox slot="dropdown-content" class="dropdown-content" selected="0">
+                <paper-listbox slot="dropdown-content" class="dropdown-content">
                     ${repeat(
                       license,
                       item =>
-                        html`<paper-item data=${item}>${item.name}</paper-item>`
+                        html`<paper-item .data=${item}>${
+                          item.name
+                        }</paper-item>`
                     )}
                 </paper-listbox>
             </paper-dropdown-menu>
             <div id="price">
-                <span hidden?=${!selected.free ? true : false}>Free</span>
-                <span id="number" hidden?=${selected.free ? true : false}>${
+                <span ?hidden=${!selected.free}>Free</span>
+                <span id="number" ?hidden=${selected.free}>${
       selected.price
-    }</span><span id="suffix" hidden?=${selected.free ? true : false}>$</span>
+    }</span><span id="suffix" ?hidden=${selected.free}>$</span>
             </div>
         </section>
         <section id="description">
             ${repeat(
               selected.buyDescription,
               item => html`<div><div class="description-item">
-                <iron-icon icon$="ht-elements-item-buy:${
+                <iron-icon icon="ht-elements-item-buy:${
                   item.permission ? "check" : "clear"
                 }"></iron-icon>
                 ${(_ => {
@@ -226,8 +229,8 @@ class HTElementsItemBuy extends LitElement {
         <section id="licenses-details">
             <a href="/license">Подробнее о лицензиях</a>
         </section>
-        <div id="actions" hidden?=${selected.free ? true : false}>
-            <paper-button id="add-in-basket" raised on-click=${e => {
+        <div id="actions" ?hidden=${selected.free}>
+            <paper-button id="add-in-basket" raised @click=${_ => {
               this._addToCart();
             }}>
             ${
@@ -237,15 +240,13 @@ class HTElementsItemBuy extends LitElement {
             }
                 </paper-button>
                 <div>
-                    <paper-button id="buy-now" raised disabled?=${!signedIn} on-click=${e => {
-      console.log(cartChangeInProcess);
+                    <paper-button id="buy-now" raised ?disabled=${!signedIn} @click=${_ => {
       this._buyNow();
     }}>
                     <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
                     </paper-button>
                     <paper-tooltip>Для быстрой покупки надо войти в приложение.</paper-tooltip>
                 </div>
-            
         </div>
     </div>
 `;
@@ -257,11 +258,12 @@ class HTElementsItemBuy extends LitElement {
 
   static get properties() {
     return {
-      itemId: String,
-      license: Array,
-      selected: Object,
-      cartChangeInProcess: Boolean,
-      signedIn: Boolean
+      itemId: { type: String },
+      license: { type: Array },
+      selected: { type: Object },
+      cartChangeInProcess: { type: Boolean },
+      signedIn: { type: Boolean },
+      data: { type: String }
     };
   }
 
@@ -278,31 +280,35 @@ class HTElementsItemBuy extends LitElement {
   }
 
   set data(data) {
+    data = JSON.parse(data);
     let license = data.license;
-    this.cartChangeInProcess = data.cartChangeInProcess;
-    if (
-      this.cartChangeInProcess ||
-      license === undefined ||
-      this.itemId === data.itemId
-    )
-      return;
+    if (license === undefined) return;
     this.itemId = data.itemId;
     let result = [];
     for (let licensetypeId in license) {
       result.push(license[licensetypeId]);
     }
     this.license = result.reverse();
-    this.listbox.selected = 0;
+    this._setSelected(this.license[0]);
+    setTimeout(() => {
+      this.listbox.selected = undefined;
+      this.listbox.selected = 0;
+    }, 500);
+  }
+
+  _setSelected(item) {
+    if (!item) return;
+    console.log(item);
+    let buyDescription = [];
+    for (let index in item.buyDescription) {
+      buyDescription.push(item.buyDescription[index]);
+    }
+    item.buyDescription = buyDescription;
+    this.selected = item;
   }
 
   _licenseChanged() {
-    let selected = this.listbox.selectedItem.data;
-    let buyDescription = [];
-    for (let index in selected.buyDescription) {
-      buyDescription.push(selected.buyDescription[index]);
-    }
-    selected.buyDescription = buyDescription;
-    this.selected = selected;
+    this._setSelected(this.listbox.selectedItem.data);
   }
 
   _addToCart() {

@@ -1,11 +1,12 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { quillStyles } from "./ht-elements-item-description-quill-styles.js";
+import "@01ht/ht-wysiwyg/ht-wysiwyg-viewer.js";
 
 class HTElementsItemDescription extends LitElement {
-  _render() {
+  render() {
+    if (this.data === undefined) return;
+    const { data } = this;
     return html`
-    ${quillStyles}
     <style>
         :host {
             display: block;
@@ -15,7 +16,7 @@ class HTElementsItemDescription extends LitElement {
     </style>
    
     <div id="container">
-        <div id="quill"></div>
+        <ht-wysiwyg-viewer .data=${data}></ht-wysiwyg-viewer>
     </div>
 `;
   }
@@ -26,40 +27,8 @@ class HTElementsItemDescription extends LitElement {
 
   static get properties() {
     return {
-      description: Object,
-      quillReady: Boolean
+      data: { type: Object }
     };
-  }
-
-  constructor() {
-    super();
-    this.description = {};
-    this.quillReady = false;
-  }
-
-  _initQuill() {
-    this.quill = new Quill(this.shadowRoot.querySelector("#quill"));
-    this.quill.enable(false);
-    this.quillReady = true;
-    this.quill.setContents(this.description);
-  }
-
-  _firstRendered() {
-    if (!window.Quill) {
-      let script = document.createElement("script");
-      script.src = "/node_modules/quill/dist/quill.min.js";
-      script.onload = _ => {
-        this._initQuill();
-      };
-      this.shadowRoot.appendChild(script);
-    } else {
-      this._initQuill();
-    }
-  }
-
-  set data(data) {
-    this.description = JSON.parse(data);
-    if (this.quillReady) this.quill.setContents(this.description);
   }
 }
 

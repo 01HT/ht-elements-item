@@ -4,13 +4,14 @@ import "@polymer/paper-button";
 import "@01ht/ht-user-avatar";
 
 class HTElementsItemAuthor extends LitElement {
-  _render({ usersData }) {
+  render() {
+    const { authorData } = this;
     return html`
     <style>
         :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
+          display: block;
+          position: relative;
+          box-sizing: border-box;
         }
 
         a {
@@ -24,8 +25,8 @@ class HTElementsItemAuthor extends LitElement {
         }
 
         paper-button {
-            margin:0;
-            width:100%;
+          margin:0;
+          width:100%;
         }
 
         #container {
@@ -41,7 +42,7 @@ class HTElementsItemAuthor extends LitElement {
         }
 
         #author a#name:hover {
-            text-decoration:underline;
+          text-decoration:underline;
         }
 
         #name {
@@ -55,17 +56,16 @@ class HTElementsItemAuthor extends LitElement {
     </style>
     <div id="container">
         <div id="author">
-            <ht-user-avatar data=${usersData} size="42" verified-size="16"></ht-user-avatar>
-            <a id="name" href="/user/${usersData.nickname}/${
-      usersData.userId
-    }">${usersData.displayName}</a>
-          <a id="portfolio" href="/portfolio/${usersData.nickname}/${
-      usersData.userId
-    }">
-          <paper-button raised>Портфолио</paper-button>
+            <ht-user-avatar .data=${authorData} size="42" verified-size="16"></ht-user-avatar>
+            <a id="name" href="/${authorData.isOrg ? "organization" : "user"}/${
+      authorData.uid
+    }">${authorData.displayName}</a>
+          <a id="portfolio" href="/${
+            authorData.isOrg ? "organization" : "user"
+          }/${authorData.uid}/portfolio">
+            <paper-button raised>Портфолио</paper-button>
           </a>
         </div>
-        
     </div>
 `;
   }
@@ -76,17 +76,17 @@ class HTElementsItemAuthor extends LitElement {
 
   static get properties() {
     return {
-      usersData: Object
+      authorData: { type: Object }
     };
   }
 
   constructor() {
     super();
-    this.usersData = {};
+    this.authorData = {};
   }
 
-  set data(usersData) {
-    this.usersData = usersData;
+  set data(authorData) {
+    if (authorData !== undefined) this.authorData = authorData;
   }
 }
 

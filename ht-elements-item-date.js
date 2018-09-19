@@ -3,7 +3,8 @@ import { LitElement, html } from "@polymer/lit-element";
 import "@01ht/ht-date";
 
 class HTElementsItemDate extends LitElement {
-  _render({ data }) {
+  render() {
+    const { data } = this;
     return html`
     <style>
         :host {
@@ -18,7 +19,7 @@ class HTElementsItemDate extends LitElement {
         }
     </style>
     <div id="container">
-        <ht-date data=${this.data}></ht-date>
+        <ht-date .data=${data}></ht-date>
     </div>
 `;
   }
@@ -29,7 +30,7 @@ class HTElementsItemDate extends LitElement {
 
   static get properties() {
     return {
-      data: String
+      data: { type: String }
     };
   }
 }

@@ -1,6 +1,6 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "@polymer/paper-spinner/paper-spinner.js";
+import "@01ht/ht-spinner";
 import "./ht-elements-item-preview.js";
 import "./ht-elements-item-description.js";
 import "./ht-elements-item-buy.js";
@@ -15,181 +15,157 @@ import "./ht-elements-item-block-tools.js";
 import "./ht-elements-item-block-tags.js";
 import "./ht-elements-item-copyright.js";
 class HTElementsItem extends LitElement {
-  _render({ loading, itemData, itemId, cartChangeInProcess, signedIn }) {
+  render() {
+    const { itemData, loading, cartChangeInProcess, itemId, signedIn } = this;
     return html`
     <style>
-        :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
-        }
+      :host {
+          display: block;
+          position: relative;
+          box-sizing: border-box;
+      }
 
+      h1 {
+        font-size: 36px;
+        font-weight: 400;
+        color:#424242;
+        margin-top:0;
+        margin-bottom: 16px;
+      }
+
+      ht-elements-item-author {
+        margin-top: 32px;
+      }
+
+      ht-elements-item-preview {
+        margin-top: 32px;
+        position:relative;
+      }
+      
+      ht-elements-item-sales {
+        margin-top:32px;
+      }
+
+      ht-elements-item-data-section  {
+        margin-top:32px;
+      }
+
+      ht-elements-item-copyright {
+        margin-top:32px;
+      }
+
+      #layout {
+        display:grid;
+        grid-template-columns: 1fr 386px;
+        grid-template-rows: auto 1fr;
+        grid-gap: 64px;
+        margin-top:32px;
+      }
+
+      #preview {
+        grid-row: 1;
+      }
+
+      #sidebar {
+        grid-row: 1 / 3;
+      }
+
+      #description {
+        grid-row: 2;
+      }
+
+      #layout[hidden] {
+          display: none;
+      }
+
+      @media (max-width:900px) {
         h1 {
-          font-size: 36px;
-          font-weight: 400;
-          color:#424242;
-          margin-top:0;
-          margin-bottom: 16px;
-        }
-
-        paper-spinner {
-          --paper-spinner-stroke-width: 4px; 
-          margin-top: 64px; 
-          width: 64px; 
-          height: 64px;
-        }
-
-        ht-elements-item-author {
-          margin-top: 32px;
-        }
-
-        ht-elements-item-preview {
-          margin-top: 32px;
-          position:relative;
-        }
-
-        ht-elements-item-description {
-        }
-
-        ht-elements-item-sales {
-          margin-top:32px;
-        }
-
-        ht-elements-item-data-section  {
-          margin-top:32px;
-        }
-
-        ht-elements-item-copyright {
-          margin-top:32px;
-        }
-
-        #container {
-
-        }
-    
-        #spinner-container {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          align-items: center;
-          align-content: center;
+          font-size:24px;
         }
 
         #layout {
-          display:grid;
-          grid-template-columns: 1fr 360px;
-          grid-template-rows: auto 1fr;
-          grid-gap: 32px;
-          margin-top:32px;
-        }
-
-        #preview {
-          grid-row: 1;
+          grid-template-columns: 1fr;
         }
 
         #sidebar {
-          grid-row: 1 / 3;
-        }
-
-        #description {
           grid-row: 2;
         }
 
-        #spinner-container[hidden], #layout[hidden] {
-            display: none;
+        #description {
+          grid-row: 3;
         }
-
-        @media (max-width:900px) {
-          h1 {
-            font-size:24px;
-          }
-
-          #layout {
-            grid-template-columns: 1fr;
-          }
-
-          #sidebar {
-            grid-row: 2;
-          }
-
-          #description {
-            grid-row: 3;
-          }
-        }
+      }
     </style>
     <div id="container">
-        <div id="spinner-container" hidden?=${!loading}>
-            <paper-spinner active?=${loading}></paper-spinner>
-        </div>
-        <section id="layout" hidden?=${loading}>
+        ${loading ? html`<ht-spinner page></ht-spinner>` : ""}
+        <section id="layout" ?hidden=${loading}>
             <section id="preview">
                 <h1>${itemData.name}</h1>
-                <ht-elements-item-preview data=${itemData}></ht-elements-item-preview>
+                <ht-elements-item-preview .data=${itemData}></ht-elements-item-preview>
             </section>
             <section id="sidebar">
-                <ht-elements-item-buy signedIn=${signedIn} data=${{
-      itemId: itemId,
-      license: itemData.license,
-      cartChangeInProcess: cartChangeInProcess
-    }}
-      ></ht-elements-item-buy>
-
-                <ht-elements-item-author data=${
-                  itemData.usersData
+                <ht-elements-item-buy .signedIn=${signedIn} .cartChangeInProcess=${cartChangeInProcess} data=${JSON.stringify(
+      {
+        itemId: itemId,
+        license: itemData.license
+      }
+    )}></ht-elements-item-buy>
+                <ht-elements-item-author .data=${
+                  itemData.authorData
                 }></ht-elements-item-author>
 
-                <ht-elements-item-sales data=${
+                <ht-elements-item-sales .data=${
                   itemData.sales
                 }></ht-elements-item-sales>
 
                 <ht-elements-item-data-section name="Последнее обновление">
-                  <ht-elements-item-date data=${
+                  <ht-elements-item-date .data=${
                     itemData.updated
                   }></ht-elements-item-date>
                 </ht-elements-item-data-section>
                 
                 <ht-elements-item-data-section name="Дата создания">
-                  <ht-elements-item-date data=${
+                  <ht-elements-item-date .data=${
                     itemData.created
                   }></ht-elements-item-date>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Категория">
-                  <ht-elements-item-category data=${
+                  <ht-elements-item-category .data=${
                     itemData.categories
                   }></ht-elements-item-category>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Платформа">
-                  <ht-elements-item-block-platform data=${
+                  <ht-elements-item-block-platform .data=${
                     itemData.attributes
                   }></ht-elements-item-block-platform>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Совместимые браузеры">
-                  <ht-elements-item-block-browsers data=${
+                  <ht-elements-item-block-browsers .data=${
                     itemData.attributes
                   }></ht-elements-item-block-browsers>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Инструменты">
-                  <ht-elements-item-block-tools data=${
+                  <ht-elements-item-block-tools .data=${
                     itemData.attributes
                   }></ht-elements-item-block-tools>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Теги">
-                  <ht-elements-item-block-tags data=${
+                  <ht-elements-item-block-tags .data=${
                     itemData.tags
                   }></ht-elements-item-block-tags>
                 </ht-elements-item-data-section>
 
-                <ht-elements-item-copyright data=${
+                <ht-elements-item-copyright .data=${
                   itemData.copyright
                 }></ht-elements-item-copyright>
             </section>
             <section id="description">
-                <ht-elements-item-description data=${
+                <ht-elements-item-description .data=${
                   itemData.description
                 }></ht-elements-item-description>
             </section>
@@ -204,12 +180,12 @@ class HTElementsItem extends LitElement {
 
   static get properties() {
     return {
-      itemId: String,
-      loading: Boolean,
-      itemData: Object,
-      data: String,
-      cartChangeInProcess: Boolean,
-      signedIn: Boolean
+      itemId: { type: String },
+      loading: { type: Boolean },
+      itemData: { type: Object },
+      data: { type: String },
+      cartChangeInProcess: { type: Boolean },
+      signedIn: { type: Boolean }
     };
   }
 

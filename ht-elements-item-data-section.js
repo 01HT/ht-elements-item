@@ -1,7 +1,9 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
+
 class HTElementsItemDataSection extends LitElement {
-  _render({ name }) {
+  render() {
+    const { name } = this;
     return html`
     <style>
         :host {
@@ -22,7 +24,7 @@ class HTElementsItemDataSection extends LitElement {
         }
     </style>    
     <div id="container">
-        <div id="name">${this.name}</div>
+        <div id="name">${name}</div>
         <slot></slot>
     </div>
 `;
@@ -34,7 +36,7 @@ class HTElementsItemDataSection extends LitElement {
 
   static get properties() {
     return {
-      name: String
+      name: { type: String }
     };
   }
 }

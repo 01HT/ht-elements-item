@@ -1,10 +1,12 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
+
 class HTElementsItemBlockPlatform extends LitElement {
-  _render({ items }) {
+  render() {
+    const { items } = this;
     return html`
       <style>
         :host {
@@ -28,13 +30,13 @@ class HTElementsItemBlockPlatform extends LitElement {
           ${repeat(
             items,
             item => html`<a class="item" href=${item.href}> 
-              <ht-chip label=${item.name} shadow image?=${
+              <ht-chip label=${item.name} shadow ?image=${
               item.imageURL ? true : false
             }>
                 ${
                   item.imageURL
                     ? html`<div slot="avatar">
-                  <iron-icon src="${item.imageURL}"></iron-icon>
+                  <iron-icon src=${item.imageURL}></iron-icon>
                 </div>`
                     : ``
                 }
@@ -52,7 +54,7 @@ class HTElementsItemBlockPlatform extends LitElement {
 
   static get properties() {
     return {
-      items: Array
+      items: { type: Array }
     };
   }
 

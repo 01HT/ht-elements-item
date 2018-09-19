@@ -1,23 +1,29 @@
 {
   "name": "@01ht/ht-elements-item",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "ht-elements-item.js",
   "repository": "01ht/ht-elements-item",
-  "author": "01ht Ltd",
+  "author": "01HT Ltd",
   "license": "UNLICENSED",
   "dependencies": {
+    "@polymer/lit-element": "^0.6.1",
     "@polymer/iron-icon": "^3.0.0-pre.17",
     "@polymer/iron-iconset-svg": "^3.0.0-pre.17",
-    "@polymer/lit-element": "^0.5.1",
     "@polymer/paper-button": "^3.0.0-pre.17",
+    "@polymer/paper-icon-button": "^3.0.0-pre.17",
     "@polymer/paper-dropdown-menu": "^3.0.0-pre.17",
     "@polymer/paper-listbox": "^3.0.0-pre.17",
     "@polymer/paper-spinner": "^3.0.0-pre.17",
+    "@polymer/paper-item": "^3.0.0-pre.17",
     "@polymer/paper-tooltip": "^3.0.0-pre.17",
+    "@01ht/ht-spinner": "^1.0.0",
     "@01ht/ht-user-avatar": "^1.0.0",
     "@01ht/ht-image": "^1.0.0",
+    "@01ht/ht-image-slider": "^1.0.0",
+    "@01ht/ht-animated-image": "^1.0.0",
+    "@01ht/ht-elements-item-youtube-preview": "^1.0.0",
     "@01ht/ht-chip": "^1.0.0",
-    "@01ht/ht-date": "^1.0.0",
-    "quill": "^1.3.5"
+    "@01ht/ht-wysiwyg": "^1.0.0",
+    "@01ht/ht-date": "^1.0.0"
   }
 }

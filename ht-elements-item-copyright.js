@@ -2,7 +2,8 @@
 import { LitElement, html } from "@polymer/lit-element";
 
 class HTElementsItemCopyright extends LitElement {
-  _render({ copyright }) {
+  render() {
+    const { copyright } = this;
     return html`
     <style>
         :host {
@@ -26,7 +27,7 @@ class HTElementsItemCopyright extends LitElement {
   }
 
   static get properties() {
-    return { copyright: String };
+    return { copyright: { type: String } };
   }
 
   constructor() {

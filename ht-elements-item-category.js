@@ -1,23 +1,19 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import { repeat } from "lit-html/lib/repeat.js";
+import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
 
 class HTElementsItemCategory extends LitElement {
-  _render({ items }) {
+  render() {
+    const { items } = this;
     return html`
     <style>
         :host {
             display: block;
             position: relative;
             box-sizing: border-box;
-        }
-
-        iron-icon { 
-            color: var(--secondary-text-color); 
-            margin-bottom: 8px;
         }
     
         #container {
@@ -27,7 +23,12 @@ class HTElementsItemCategory extends LitElement {
             margin-top: 16px;
         }
 
-        iron-icon:first-child {
+        #container > iron-icon { 
+            color: var(--secondary-text-color); 
+            margin-bottom: 8px;
+        }
+
+        #container > iron-icon:first-child {
           display:none;
         }
     
@@ -52,7 +53,15 @@ class HTElementsItemCategory extends LitElement {
           items,
           item => html`<iron-icon icon="ht-elements-item-category:chevron-right"></iron-icon>
       <a class="item" href=${item.href}>
-              <ht-chip label=${item.name} shadow></ht-chip>
+              <ht-chip label=${item.name} shadow ?image=${
+            item.imageURL ? true : false
+          }>${
+            item.imageURL
+              ? html`<div slot="avatar">
+                  <iron-icon src="${item.imageURL}"></iron-icon>
+                </div>`
+              : ``
+          }</ht-chip>
             </a>`
         )}
     </div>
@@ -65,7 +74,7 @@ class HTElementsItemCategory extends LitElement {
 
   static get properties() {
     return {
-      items: Array
+      items: { type: Array }
     };
   }
 
