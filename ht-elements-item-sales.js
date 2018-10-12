@@ -27,13 +27,8 @@ class HTElementsItemSales extends LitElement {
         }
 
         #number {
-            font-size:14px;
             font-weight:500;
             margin:0 4px;
-        }
-
-        #text {
-            font-size:14px;
         }
     </style>
     <iron-iconset-svg size="24" name="ht-elements-item-sales">

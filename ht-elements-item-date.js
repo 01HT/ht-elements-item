@@ -14,8 +14,9 @@ class HTElementsItemDate extends LitElement {
         }
 
         ht-date {
+            display:block;
             color:var(--secondary-text-color);
-            font-size:14px;
+            margin-top: 8px;
         }
     </style>
     <div id="container">

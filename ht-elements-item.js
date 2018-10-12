@@ -14,25 +14,13 @@ import "./ht-elements-item-block-browsers.js";
 import "./ht-elements-item-block-tools.js";
 import "./ht-elements-item-block-tags.js";
 import "./ht-elements-item-copyright.js";
+
 class HTElementsItem extends LitElement {
   render() {
     const { itemData, loading, cartChangeInProcess, itemId, signedIn } = this;
     return html`
+    ${SharedStyles}
     <style>
-      :host {
-          display: block;
-          position: relative;
-          box-sizing: border-box;
-      }
-
-      h1 {
-        font-size: 36px;
-        font-weight: 400;
-        color:#424242;
-        margin-top:0;
-        margin-bottom: 16px;
-      }
-
       ht-elements-item-author {
         margin-top: 32px;
       }
@@ -59,7 +47,6 @@ class HTElementsItem extends LitElement {
         grid-template-columns: 1fr 386px;
         grid-template-rows: auto 1fr;
         grid-gap: 64px;
-        margin-top:32px;
       }
 
       #preview {
@@ -68,23 +55,22 @@ class HTElementsItem extends LitElement {
 
       #sidebar {
         grid-row: 1 / 3;
+        margin-top:32px;
       }
 
       #description {
         grid-row: 2;
+        margin-top:-32px;
       }
 
       #layout[hidden] {
           display: none;
       }
 
-      @media (max-width:900px) {
-        h1 {
-          font-size:24px;
-        }
-
+      @media (max-width:1000px) {
         #layout {
           grid-template-columns: 1fr;
+          grid-gap: 32px;
         }
 
         #sidebar {
@@ -100,7 +86,7 @@ class HTElementsItem extends LitElement {
         ${loading ? html`<ht-spinner page></ht-spinner>` : ""}
         <section id="layout" ?hidden=${loading}>
             <section id="preview">
-                <h1>${itemData.name}</h1>
+                <h1 class="mdc-typography--headline4">${itemData.name}</h1>
                 <ht-elements-item-preview .data=${itemData}></ht-elements-item-preview>
             </section>
             <section id="sidebar">

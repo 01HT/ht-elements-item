@@ -6,14 +6,15 @@ import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu.js";
 import "@polymer/paper-listbox";
-import "@polymer/paper-spinner/paper-spinner.js";
 import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-tooltip";
+import "@01ht/ht-spinner";
 
 class HTElementsItemBuy extends LitElement {
   render() {
     const { signedIn, license, selected, cartChangeInProcess } = this;
     return html`
+    ${SharedStyles}
     <style>
         :host {
             display: block;
@@ -23,20 +24,13 @@ class HTElementsItemBuy extends LitElement {
     
         a {
             display: block;
-            color: inherit;
             text-decoration: none;
-        }
-
-        #actions > * {
-            width: calc(50% - 8px);
         }
 
         paper-button{
             margin:0;
-        }
-
-        paper-button iron-icon {
-            padding-right: 4px;
+            padding:8px 16px;
+            min-height:52px;
         }
         
         paper-listbox {
@@ -48,27 +42,21 @@ class HTElementsItemBuy extends LitElement {
             cursor:pointer;
         }
 
-        paper-tooltip {
-            --paper-tooltip: {
-                font-size:13px;
-                line-height:1.3;
-                padding:8px;
-            }
-        }
-
-        paper-spinner {
-            width: 24px;
-            height: 24px;
-            --paper-spinner-stroke-width: 2px;
-        }
-
         #container {
             display:flex;
             flex-direction:column;
+            max-width: 386px;
+            margin:auto;
             position:relative;
             padding: 24px;
             border-radius:3px;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        #title {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 16px;
         }
 
         #changer {
@@ -83,7 +71,7 @@ class HTElementsItemBuy extends LitElement {
         }
 
         #changer paper-dropdown-menu {
-            margin-right: 8px;
+            margin-right: 24px;
             flex: 1;
         }
 
@@ -109,11 +97,12 @@ class HTElementsItemBuy extends LitElement {
         #description > div {
             margin-bottom: 4px;
             float:left;
+            font-size: 14px;
+            position:relative;
         }
 
         .description-item {
             display: flex;
-            position:relative;
             align-items:center;
             cursor: default;
             float:left;
@@ -133,7 +122,6 @@ class HTElementsItemBuy extends LitElement {
 
         #licenses-details {
             margin-top: 12px;
-            color: var(--accent-color);
             font-size:14px;
         }
 
@@ -143,17 +131,31 @@ class HTElementsItemBuy extends LitElement {
 
         #actions {
             display:flex;
-            justify-content: space-between;
-            margin-top: 16px;
+            flex-direction:column;
+            margin-top: 24px;
+        }
+
+        #add-in-basket {
+            background: var(--accent-color);
+        }
+
+        ht-spinner {
+            display:flex;
+            height: 52px;
+            justify-content:center;
+            align-items:center;
         }
         
         #buy-now {
             position:relative;
+            margin-top:16px;
+            background: #ccc;
+            width:100%;
+            
         }
 
         #buy-now:not([disabled]) {
-            background: var(--accent-color);
-            color: #fff;
+            background:#737373;
         }
 
         [hidden], #actions[hidden] {
@@ -182,6 +184,7 @@ class HTElementsItemBuy extends LitElement {
         </svg>
     </iron-iconset-svg>
     <div id="container">
+        <div id="title">Доступные лицензии</div>
         <section id="changer">
             <div>
                 <iron-icon id="info" icon="ht-elements-item-buy:info-outline"></iron-icon>
@@ -203,7 +206,7 @@ class HTElementsItemBuy extends LitElement {
                 </paper-listbox>
             </paper-dropdown-menu>
             <div id="price">
-                <span ?hidden=${!selected.free}>Free</span>
+                <span ?hidden=${!selected.free}>FREE</span>
                 <span id="number" ?hidden=${selected.free}>${
       selected.price
     }</span><span id="suffix" ?hidden=${selected.free}>$</span>
@@ -221,31 +224,30 @@ class HTElementsItemBuy extends LitElement {
                   div.innerHTML = `${item.title}`;
                   return html`${div}`;
                 })()}
-                </div> <paper-tooltip role="tooltip">${html`${
+                <paper-tooltip role="tooltip">${html`${
                   item.tooltipText
-                }`}</paper-tooltip></div>`
+                }`}</paper-tooltip></div></div>`
             )}
         </section>
         <section id="licenses-details">
             <a href="/license">Подробнее о лицензиях</a>
         </section>
         <div id="actions" ?hidden=${selected.free}>
-            <paper-button id="add-in-basket" raised @click=${_ => {
-              this._addToCart();
-            }}>
             ${
               cartChangeInProcess
-                ? html`<paper-spinner active></paper-spinner>`
-                : html`<iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину`
+                ? html`<ht-spinner button></ht-spinner>`
+                : html`<paper-button id="add-in-basket" raised @click=${_ => {
+                    this._addToCart();
+                  }}><iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>`
             }
-                </paper-button>
                 <div>
-                    <paper-button id="buy-now" raised ?disabled=${!signedIn} @click=${_ => {
+                    <paper-button id="buy-now" raised ?disabled=${!signedIn ||
+                      cartChangeInProcess} @click=${_ => {
       this._buyNow();
     }}>
                     <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
                     </paper-button>
-                    <paper-tooltip>Для быстрой покупки надо войти в приложение.</paper-tooltip>
+                    <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки надо войти в приложение.</paper-tooltip>
                 </div>
         </div>
     </div>
@@ -298,7 +300,7 @@ class HTElementsItemBuy extends LitElement {
 
   _setSelected(item) {
     if (!item) return;
-    console.log(item);
+    // console.log(item);
     let buyDescription = [];
     for (let index in item.buyDescription) {
       buyDescription.push(item.buyDescription[index]);

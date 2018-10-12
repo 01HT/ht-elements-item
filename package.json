@@ -13,7 +13,6 @@
     "@polymer/paper-icon-button": "^3.0.1",
     "@polymer/paper-dropdown-menu": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",
-    "@polymer/paper-spinner": "^3.0.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-tooltip": "^3.0.1",
     "@01ht/ht-spinner": "01ht/ht-spinner",
@@ -24,6 +23,7 @@
     "@01ht/ht-elements-item-youtube-preview": "01ht/ht-elements-item-youtube-preview",
     "@01ht/ht-chip": "01ht/ht-chip",
     "@01ht/ht-wysiwyg": "01ht/ht-wysiwyg",
-    "@01ht/ht-date": "01ht/ht-date"
+    "@01ht/ht-date": "01ht/ht-date",
+    "@01ht/ht-theme": "01ht/ht-theme"
   }
 }

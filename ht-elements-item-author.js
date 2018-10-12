@@ -7,6 +7,7 @@ class HTElementsItemAuthor extends LitElement {
   render() {
     const { authorData } = this;
     return html`
+    ${SharedStyles}
     <style>
         :host {
           display: block;
@@ -16,8 +17,6 @@ class HTElementsItemAuthor extends LitElement {
 
         a {
           display:block;
-          color:inherit;
-          text-decoration: none;
         }
 
         ht-user-avatar {
@@ -27,6 +26,8 @@ class HTElementsItemAuthor extends LitElement {
         paper-button {
           margin:0;
           width:100%;
+          background: #fff;
+          color: #424242;
         }
 
         #container {
@@ -46,7 +47,6 @@ class HTElementsItemAuthor extends LitElement {
         }
 
         #name {
-          font-size: 14px;
           margin-right:16px;
         }
 
