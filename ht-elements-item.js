@@ -81,6 +81,10 @@ class HTElementsItem extends LitElement {
           grid-row: 3;
         }
       }
+
+      [hidden] {
+        display: none;
+      }
     </style>
     <div id="container">
         ${loading ? html`<ht-spinner page></ht-spinner>` : ""}
@@ -102,7 +106,7 @@ class HTElementsItem extends LitElement {
 
                 <ht-elements-item-sales .data=${
                   itemData.sales
-                }></ht-elements-item-sales>
+                } ?hidden=${itemData.sales === 0}></ht-elements-item-sales>
 
                 <ht-elements-item-data-section name="Последнее обновление">
                   <ht-elements-item-date .data=${
