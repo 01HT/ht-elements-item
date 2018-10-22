@@ -10,31 +10,39 @@ class HTElementsItemCategory extends LitElement {
     const { items } = this;
     return html`
     <style>
-        :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
-        }
-    
-        #container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items:center;
-            margin-top: 16px;
-        }
+      :host {
+        display: block;
+        position: relative;
+        box-sizing: border-box;
+      }
+  
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items:center;
+        margin-top: 16px;
+      }
 
-        #container > iron-icon { 
-            color: var(--secondary-text-color); 
-            margin-bottom: 8px;
-        }
+      #container > iron-icon { 
+        color: var(--secondary-text-color); 
+        margin-bottom: 8px;
+      }
 
-        #container > iron-icon:first-child {
-          display:none;
-        }
-    
-        a {
-            margin-bottom: 8px;
-        }
+      #container > iron-icon:first-child {
+        display:none;
+      }
+  
+      a {
+        margin-bottom: 8px;
+      }
+
+      #empty {
+        color: var(--secondary-text-color);
+      }
+
+      [hidden] {
+        display: none;
+      }
     </style>
     <iron-iconset-svg size="24" name="ht-elements-item-category">
         <svg>
@@ -64,6 +72,7 @@ class HTElementsItemCategory extends LitElement {
           }</ht-chip>
             </a>`
         )}
+        <div id="empty" ?hidden=${items.length > 0}>Не указано</div>
     </div>
 `;
   }

@@ -25,8 +25,17 @@ class HTElementsItemBlockBrowsers extends LitElement {
             margin-right: 8px;
             margin-bottom: 8px;
         }
+
+        #empty {
+          color: var(--secondary-text-color);
+        }
+
+        [hidden] {
+          display: none;
+        }
     </style>
     <div id="container">
+          <div id="empty" ?hidden=${items.length > 0}>Не указано</div>
           ${repeat(
             items,
             item => html`<a class="item" href="/catalog?browsers=${item.name}"> 

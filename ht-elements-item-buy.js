@@ -191,7 +191,7 @@ class HTElementsItemBuy extends LitElement {
                 <paper-tooltip>${selected.description}</paper-tooltip>
             </div>
             <paper-dropdown-menu no-label-float ?disabled=${
-              license && license[0] && license[0].openSource ? true : false
+              license && license.length === 1 ? true : false
             } no-animations @iron-select=${e => {
       this._licenseChanged();
     }}>
