@@ -61,6 +61,7 @@ class HTElementsItem extends LitElement {
       #description {
         grid-row: 2;
         margin-top:-32px;
+        overflow: auto;
       }
 
       #layout[hidden] {
@@ -75,6 +76,7 @@ class HTElementsItem extends LitElement {
 
         #sidebar {
           grid-row: 2;
+          margin-top: 0;
         }
 
         #description {
