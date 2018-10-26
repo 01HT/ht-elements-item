@@ -24,6 +24,7 @@
     "@01ht/ht-chip": "01ht/ht-chip",
     "@01ht/ht-wysiwyg": "01ht/ht-wysiwyg",
     "@01ht/ht-date": "01ht/ht-date",
-    "@01ht/ht-theme": "01ht/ht-theme"
+    "@01ht/ht-theme": "01ht/ht-theme",
+    "pwa-helpers": "^0.8.3"
   }
 }

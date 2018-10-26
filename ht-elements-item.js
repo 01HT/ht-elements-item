@@ -14,6 +14,7 @@ import "./ht-elements-item-block-browsers.js";
 import "./ht-elements-item-block-tools.js";
 import "./ht-elements-item-block-tags.js";
 import "./ht-elements-item-copyright.js";
+import { updateMetadata } from "pwa-helpers/metadata.js";
 
 class HTElementsItem extends LitElement {
   render() {
@@ -173,6 +174,7 @@ class HTElementsItem extends LitElement {
   static get properties() {
     return {
       itemId: { type: String },
+      nameInURL: { type: String },
       loading: { type: Boolean },
       itemData: { type: Object },
       data: { type: String },
@@ -184,6 +186,17 @@ class HTElementsItem extends LitElement {
   constructor() {
     super();
     this.itemData = {};
+  }
+
+  updated() {
+    if (this.itemData.name === undefined) return;
+    updateMetadata({
+      title: `${this.itemData.name} | Elements`,
+      // description: info.description,
+      image: `${window.cloudinaryURL}/image/upload/c_scale,f_auto,w_512/v${
+        this.itemData.image.version
+      }/${this.itemData.image.public_id}.jpg`
+    });
   }
 
   set data(itemId) {
@@ -200,16 +213,25 @@ class HTElementsItem extends LitElement {
         .collection("items")
         .doc(itemId)
         .get();
+      this.loading = false;
       if (!snapshot.exists) {
         this.dispatchEvent(
-          new CustomEvent("item-not-found", {
+          new CustomEvent("page-not-found", {
+            bubbles: true,
+            composed: true
+          })
+        );
+        return;
+      }
+      this.itemData = snapshot.data();
+      if (this.itemData.nameInURL !== this.nameInURL) {
+        this.dispatchEvent(
+          new CustomEvent("page-not-found", {
             bubbles: true,
             composed: true
           })
         );
       }
-      this.itemData = snapshot.data();
-      this.loading = false;
     } catch (error) {
       console.log("_getItemData: " + error.message);
     }
