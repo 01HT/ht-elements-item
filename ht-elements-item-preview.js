@@ -38,7 +38,7 @@ class HTElementsItemPreview extends LitElement {
             height: 48px;
             border-radius:50%;
             margin:0 4px;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+            
         }
 
         paper-icon-button[selected] {
@@ -49,6 +49,7 @@ class HTElementsItemPreview extends LitElement {
         #container {
             display: flex;
             flex-direction:column;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
         }
 
         #media {
@@ -73,8 +74,7 @@ class HTElementsItemPreview extends LitElement {
             display: flex;
             flex-wrap: wrap;
             justify-content:center;
-            margin-top:-24px;
-            z-index: 999;
+            padding: 8px;
         }
 
         [hidden] {
