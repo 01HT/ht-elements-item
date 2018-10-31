@@ -9,10 +9,20 @@ import "@polymer/paper-listbox";
 import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-tooltip";
 import "@01ht/ht-spinner";
+import {
+  // callTestHTTPFunction
+  callFirebaseHTTPFunction
+} from "@01ht/ht-client-helper-functions";
 
 class HTElementsItemBuy extends LitElement {
   render() {
-    const { signedIn, license, selected, cartChangeInProcess } = this;
+    const {
+      signedIn,
+      license,
+      selected,
+      cartChangeInProcess,
+      buyNowLoading
+    } = this;
     return html`
     ${SharedStyles}
     <style>
@@ -139,6 +149,10 @@ class HTElementsItemBuy extends LitElement {
             background: var(--accent-color);
         }
 
+        #add-in-basket[disabled] {
+            background:#ccc;
+        }
+
         ht-spinner {
             display:flex;
             height: 52px;
@@ -157,6 +171,7 @@ class HTElementsItemBuy extends LitElement {
         #buy-now:not([disabled]) {
             background:#737373;
         }
+
 
         [hidden], #actions[hidden] {
             display:none;
@@ -236,18 +251,22 @@ class HTElementsItemBuy extends LitElement {
             ${
               cartChangeInProcess
                 ? html`<ht-spinner button></ht-spinner>`
-                : html`<paper-button id="add-in-basket" raised @click=${_ => {
+                : html`<paper-button id="add-in-basket" ?disabled=${buyNowLoading} raised @click=${_ => {
                     this._addToCart();
                   }}><iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>`
             }
                 <div>
-                    <paper-button id="buy-now" raised ?disabled=${!signedIn ||
-                      cartChangeInProcess} @click=${_ => {
-      this._buyNow();
-    }}>
+                    ${
+                      buyNowLoading
+                        ? html`<ht-spinner button style="margin-top:16px;"></ht-spinner>`
+                        : html`<paper-button id="buy-now" raised ?disabled=${!signedIn ||
+                            cartChangeInProcess} @click=${_ => {
+                            this._buyNow();
+                          }}>
                     <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
                     </paper-button>
-                    <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки надо войти в приложение.</paper-tooltip>
+                    <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки надо войти в приложение.</paper-tooltip>`
+                    }
                 </div>
         </div>
     </div>
@@ -265,7 +284,8 @@ class HTElementsItemBuy extends LitElement {
       selected: { type: Object },
       cartChangeInProcess: { type: Boolean },
       signedIn: { type: Boolean },
-      data: { type: String }
+      data: { type: String },
+      buyNowLoading: { type: Boolean }
     };
   }
 
@@ -300,7 +320,6 @@ class HTElementsItemBuy extends LitElement {
 
   _setSelected(item) {
     if (!item) return;
-    // console.log(item);
     let buyDescription = [];
     for (let index in item.buyDescription) {
       buyDescription.push(item.buyDescription[index]);
@@ -327,8 +346,46 @@ class HTElementsItemBuy extends LitElement {
     );
   }
 
-  _buyNow() {
-    console.log("_buyNow");
+  async _buyNow() {
+    try {
+      this.buyNowLoading = true;
+      let body = {};
+      body[this.itemId] = 1;
+      let response = await callFirebaseHTTPFunction({
+        name: "httpsOrdersAddOrder",
+        authorization: true,
+        options: {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        }
+      });
+      this.buyNowLoading = false;
+      if (response.error) return;
+      this.dispatchEvent(
+        new CustomEvent("update-pathname", {
+          bubbles: true,
+          composed: true,
+          detail: {
+            pathname: "/my-orders"
+          }
+        })
+      );
+    } catch (err) {
+      this.dispatchEvent(
+        new CustomEvent("show-toast", {
+          bubbles: true,
+          composed: true,
+          detail: {
+            text: err.message
+          }
+        })
+      );
+      this.buyNowLoading = false;
+      console.log(err.message);
+    }
   }
 }
 
