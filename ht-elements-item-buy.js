@@ -9,20 +9,10 @@ import "@polymer/paper-listbox";
 import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-tooltip";
 import "@01ht/ht-spinner";
-import {
-  // callTestHTTPFunction
-  callFirebaseHTTPFunction
-} from "@01ht/ht-client-helper-functions";
 
 class HTElementsItemBuy extends LitElement {
   render() {
-    const {
-      signedIn,
-      license,
-      selected,
-      cartChangeInProcess,
-      buyNowLoading
-    } = this;
+    const { signedIn, license, selected, cartChangeInProcess } = this;
     return html`
     ${SharedStyles}
     <style>
@@ -104,18 +94,14 @@ class HTElementsItemBuy extends LitElement {
             margin-top:8px;
         }
 
-        #description > div {
-            margin-bottom: 4px;
-            float:left;
-            font-size: 14px;
-            position:relative;
-        }
-
         .description-item {
             display: flex;
             align-items:center;
             cursor: default;
             float:left;
+            margin-bottom: 4px;
+            font-size: 14px;
+            position:relative;
         }
         
         .description-item iron-icon {
@@ -163,15 +149,14 @@ class HTElementsItemBuy extends LitElement {
         #buy-now {
             position:relative;
             margin-top:16px;
-            background: #ccc;
-            width:100%;
-            
-        }
-
-        #buy-now:not([disabled]) {
             background:#737373;
+            /* background:#039be5; */
+            width:100%;
         }
 
+        #buy-now[disabled] {
+            background: #ccc;
+        }
 
         [hidden], #actions[hidden] {
             display:none;
@@ -230,7 +215,7 @@ class HTElementsItemBuy extends LitElement {
         <section id="description">
             ${repeat(
               selected.buyDescription,
-              item => html`<div><div class="description-item">
+              item => html`<div class="description-item">
                 <iron-icon icon="ht-elements-item-buy:${
                   item.permission ? "check" : "clear"
                 }"></iron-icon>
@@ -241,7 +226,7 @@ class HTElementsItemBuy extends LitElement {
                 })()}
                 <paper-tooltip role="tooltip">${html`${
                   item.tooltipText
-                }`}</paper-tooltip></div></div>`
+                }`}</paper-tooltip></div>`
             )}
         </section>
         <section id="licenses-details">
@@ -251,22 +236,23 @@ class HTElementsItemBuy extends LitElement {
             ${
               cartChangeInProcess
                 ? html`<ht-spinner button></ht-spinner>`
-                : html`<paper-button id="add-in-basket" ?disabled=${buyNowLoading} raised @click=${_ => {
+                : html`<paper-button id="add-in-basket" raised @click=${_ => {
                     this._addToCart();
                   }}><iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>`
             }
                 <div>
-                    ${
-                      buyNowLoading
-                        ? html`<ht-spinner button style="margin-top:16px;"></ht-spinner>`
-                        : html`<paper-button id="buy-now" raised ?disabled=${!signedIn ||
-                            cartChangeInProcess} @click=${_ => {
-                            this._buyNow();
-                          }}>
+                ${
+                  signedIn && !cartChangeInProcess
+                    ? html`<a href="/my-orders"><paper-button id="buy-now" raised @click=${_ => {
+                        this._buyNow();
+                      }}>
                     <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
-                    </paper-button>
-                    <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки надо войти в приложение.</paper-tooltip>`
-                    }
+                    </paper-button></a>`
+                    : html`<paper-button id="buy-now" raised disabled>
+                    <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
+                    </paper-button>`
+                }
+                    <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки войдите в приложение</paper-tooltip>
                 </div>
         </div>
     </div>
@@ -284,8 +270,7 @@ class HTElementsItemBuy extends LitElement {
       selected: { type: Object },
       cartChangeInProcess: { type: Boolean },
       signedIn: { type: Boolean },
-      data: { type: String },
-      buyNowLoading: { type: Boolean }
+      data: { type: String }
     };
   }
 
@@ -347,45 +332,15 @@ class HTElementsItemBuy extends LitElement {
   }
 
   async _buyNow() {
-    try {
-      this.buyNowLoading = true;
-      let body = {};
-      body[this.itemId] = 1;
-      let response = await callFirebaseHTTPFunction({
-        name: "httpsOrdersAddOrder",
-        authorization: true,
-        options: {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(body)
+    this.dispatchEvent(
+      new CustomEvent("create-order", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          itemId: this.itemId
         }
-      });
-      this.buyNowLoading = false;
-      if (response.error) return;
-      this.dispatchEvent(
-        new CustomEvent("update-pathname", {
-          bubbles: true,
-          composed: true,
-          detail: {
-            pathname: "/my-orders"
-          }
-        })
-      );
-    } catch (err) {
-      this.dispatchEvent(
-        new CustomEvent("show-toast", {
-          bubbles: true,
-          composed: true,
-          detail: {
-            text: err.message
-          }
-        })
-      );
-      this.buyNowLoading = false;
-      console.log(err.message);
-    }
+      })
+    );
   }
 }
 
