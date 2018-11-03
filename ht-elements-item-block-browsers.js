@@ -45,7 +45,9 @@ class HTElementsItemBlockBrowsers extends LitElement {
                 ${
                   item.imageURL
                     ? html`<div slot="avatar">
-                  <iron-icon src=${item.imageURL}></iron-icon>
+                  <iron-icon src=${
+                    item.imageURL
+                  } aria-hidden="true"></iron-icon>
                 </div>`
                     : ``
                 }
