@@ -152,12 +152,14 @@ class HTElementsItemPreview extends LitElement {
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg size="16x9"></ht-image>`
+                  }.jpg size="16x9" .altText=${data.name}></ht-image>`
                 : ""
             }
             ${
               active === "slider"
-                ? html`<ht-image-slider .data=${data.slider}></ht-image-slider>`
+                ? html`<ht-image-slider .data=${data.slider} .altText=${
+                    data.name
+                  }></ht-image-slider>`
                 : ""
             }
             ${
@@ -171,7 +173,7 @@ class HTElementsItemPreview extends LitElement {
               active === "youtube"
                 ? html`<ht-elements-item-youtube-preview .data=${
                     data.youtube
-                  }></ht-elements-item-youtube-preview>`
+                  } .titleText=${data.name}></ht-elements-item-youtube-preview>`
                 : ""
             }
         </section>
@@ -180,7 +182,8 @@ class HTElementsItemPreview extends LitElement {
               data.demoURL !== ""
                 ? html`<a href=${
                     data.demoURL
-                  } target="_blank" ?hidden=${data.demoURL === ""}>
+                  } target="_blank" ?hidden=${data.demoURL ===
+                    ""} rel="noopener">
             <paper-icon-button id="demo" icon="ht-elements-item-preview:remove-red-eye"></paper-icon-button>
             </a>`
                 : ""
@@ -213,7 +216,9 @@ class HTElementsItemPreview extends LitElement {
               "image"} icon="ht-elements-item-preview:image" @click=${e => {
       this._changeActive("image");
     }}></paper-icon-button>
-            <a href="https://github.com/${data.repositoryURL}" target="_blank">
+            <a href="https://github.com/${
+              data.repositoryURL
+            }" target="_blank" rel="noopener">
                 <paper-icon-button id="github" icon="ht-elements-item-preview:github"></paper-icon-button>
             </a>
         </section>
