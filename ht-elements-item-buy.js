@@ -65,13 +65,20 @@ class HTElementsItemBuy extends LitElement {
             flex-wrap: nowrap;
         }
 
+        #changer #dropdown {
+            position: relative;
+            margin-right: 24px;
+            display: flex;
+            flex: 1;
+            align-items: center;
+        }
+
         #info {
             color: var(--accent-color);
             margin-right: 8px;
         }
 
         #changer paper-dropdown-menu {
-            margin-right: 24px;
             flex: 1;
         }
 
@@ -186,13 +193,11 @@ class HTElementsItemBuy extends LitElement {
     <div id="container">
         <div id="title">Доступные лицензии</div>
         <section id="changer">
-            <div>
+            <div id="dropdown">
                 <iron-icon id="info" icon="ht-elements-item-buy:info-outline"></iron-icon>
-                <paper-tooltip>${selected.description}</paper-tooltip>
-            </div>
-            <paper-dropdown-menu no-label-float ?disabled=${
-              license && license.length === 1 ? true : false
-            } no-animations @iron-select=${e => {
+                <paper-dropdown-menu no-label-float ?disabled=${
+                  license && license.length === 1 ? true : false
+                } no-animations @iron-select=${e => {
       this._licenseChanged();
     }}>
                 <paper-listbox slot="dropdown-content" class="dropdown-content">
@@ -205,6 +210,8 @@ class HTElementsItemBuy extends LitElement {
                     )}
                 </paper-listbox>
             </paper-dropdown-menu>
+                <paper-tooltip>${selected.description}</paper-tooltip>
+            </div>
             <div id="price">
                 <span ?hidden=${!selected.free}>FREE</span>
                 <span id="number" ?hidden=${selected.free}>${
