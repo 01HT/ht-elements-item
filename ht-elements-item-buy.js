@@ -12,7 +12,13 @@ import "@01ht/ht-spinner";
 
 class HTElementsItemBuy extends LitElement {
   render() {
-    const { signedIn, license, selected, cartChangeInProcess } = this;
+    const {
+      signedIn,
+      license,
+      selected,
+      cartChangeInProcess,
+      orderCreating
+    } = this;
     return html`
     ${SharedStyles}
     <style>
@@ -142,10 +148,6 @@ class HTElementsItemBuy extends LitElement {
             background: var(--accent-color);
         }
 
-        #add-in-basket[disabled] {
-            background:#ccc;
-        }
-
         ht-spinner {
             display:flex;
             height: 52px;
@@ -161,7 +163,11 @@ class HTElementsItemBuy extends LitElement {
             width:100%;
         }
 
-        #buy-now[disabled] {
+        #buy-now-spinner {
+            margin-top:16px;
+        }
+
+        #buy-now[disabled], #add-in-basket[disabled] {
             background: #ccc;
         }
 
@@ -243,22 +249,27 @@ class HTElementsItemBuy extends LitElement {
             ${
               cartChangeInProcess
                 ? html`<ht-spinner button></ht-spinner>`
-                : html`<paper-button id="add-in-basket" raised @click=${_ => {
+                : html`<paper-button id="add-in-basket" raised ?disabled=${orderCreating} @click=${_ => {
                     this._addToCart();
                   }}><iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>`
             }
-                <div>
-                ${
-                  signedIn && !cartChangeInProcess
-                    ? html`<a href="/my-orders"><paper-button id="buy-now" raised @click=${_ => {
-                        this._buyNow();
-                      }}>
-                    <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
-                    </paper-button></a>`
-                    : html`<paper-button id="buy-now" raised disabled>
+            <div>
+            ${
+              orderCreating
+                ? html`<ht-spinner id="buy-now-spinner" button></ht-spinner>`
+                : html`${
+                    !orderCreating && signedIn && !cartChangeInProcess
+                      ? html`<paper-button id="buy-now" raised @click=${_ => {
+                          this._buyNow();
+                        }}>
                     <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
                     </paper-button>`
-                }
+                      : html`<paper-button id="buy-now" raised disabled>
+                    <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
+                    </paper-button>`
+                  }`
+            }
+                
                     <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки войдите в приложение</paper-tooltip>
                 </div>
         </div>
@@ -276,6 +287,7 @@ class HTElementsItemBuy extends LitElement {
       license: { type: Array },
       selected: { type: Object },
       cartChangeInProcess: { type: Boolean },
+      orderCreating: { type: Boolean },
       signedIn: { type: Boolean },
       data: { type: String }
     };
@@ -339,6 +351,7 @@ class HTElementsItemBuy extends LitElement {
   }
 
   async _buyNow() {
+    this.orderCreating = true;
     this.dispatchEvent(
       new CustomEvent("create-order", {
         bubbles: true,
