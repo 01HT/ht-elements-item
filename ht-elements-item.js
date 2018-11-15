@@ -18,7 +18,14 @@ import { updateMetadata } from "pwa-helpers/metadata.js";
 
 class HTElementsItem extends LitElement {
   render() {
-    const { itemData, loading, cartChangeInProcess, itemId, signedIn } = this;
+    const {
+      itemData,
+      loading,
+      cartChangeInProcess,
+      orderCreating,
+      itemId,
+      signedIn
+    } = this;
     return html`
     ${SharedStyles}
     <style>
@@ -97,7 +104,7 @@ class HTElementsItem extends LitElement {
                 <ht-elements-item-preview .data=${itemData}></ht-elements-item-preview>
             </section>
             <section id="sidebar">
-                <ht-elements-item-buy .signedIn=${signedIn} .cartChangeInProcess=${cartChangeInProcess} data=${JSON.stringify(
+                <ht-elements-item-buy .signedIn=${signedIn} .cartChangeInProcess=${cartChangeInProcess} .orderCreating=${orderCreating} data=${JSON.stringify(
       {
         itemId: itemId,
         license: itemData.license
@@ -179,6 +186,7 @@ class HTElementsItem extends LitElement {
       itemData: { type: Object },
       data: { type: String },
       cartChangeInProcess: { type: Boolean },
+      orderCreating: { type: Boolean },
       signedIn: { type: Boolean }
     };
   }
