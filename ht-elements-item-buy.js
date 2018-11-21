@@ -357,7 +357,8 @@ class HTElementsItemBuy extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          itemId: this.itemId
+          itemId: this.itemId,
+          ordertypeId: "v2m2Mq3clhUhyeex5Xkp"
         }
       })
     );
