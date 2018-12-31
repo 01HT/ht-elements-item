@@ -144,15 +144,15 @@ class HTElementsItemPreview extends LitElement {
         <section id="media">
             ${
               active === "image"
-                ? html`<ht-image placeholder=${
+                ? html`<ht-image placeholder="${
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg image=${
+                  }.jpg" image="${
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg size="16x9" .altText=${data.name}></ht-image>`
+                  }.jpg" size="16x9" .altText=${data.name}></ht-image>`
                 : ""
             }
             ${
