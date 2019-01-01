@@ -58,11 +58,19 @@ class HTElementsItemAuthor extends LitElement {
         <div id="author">
             <ht-user-avatar .data=${authorData} size="42" verified-size="16"></ht-user-avatar>
             <a id="name" href="/${authorData.isOrg ? "organization" : "user"}/${
-      authorData.uid
+      authorData.nameInURL
+    }/${
+      authorData.isOrg
+        ? `${authorData.organizationNumber}`
+        : `${authorData.userNumber}`
     }">${authorData.displayName}</a>
           <a id="portfolio" href="/${
             authorData.isOrg ? "organization" : "user"
-          }/${authorData.uid}/portfolio">
+          }/${authorData.nameInURL}/${
+      authorData.isOrg
+        ? `${authorData.organizationNumber}`
+        : `${authorData.userNumber}`
+    }/portfolio">
             <paper-button raised>Портфолио</paper-button>
           </a>
         </div>
