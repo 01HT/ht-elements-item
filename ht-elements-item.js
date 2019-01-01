@@ -23,7 +23,6 @@ class HTElementsItem extends LitElement {
       loading,
       cartChangeInProcess,
       orderCreating,
-      itemId,
       signedIn
     } = this;
     return html`
@@ -106,7 +105,7 @@ class HTElementsItem extends LitElement {
             <section id="sidebar">
                 <ht-elements-item-buy .signedIn=${signedIn} .cartChangeInProcess=${cartChangeInProcess} .orderCreating=${orderCreating} data=${JSON.stringify(
       {
-        itemId: itemId,
+        itemId: itemData.itemId,
         license: itemData.license
       }
     )}></ht-elements-item-buy>
@@ -180,7 +179,7 @@ class HTElementsItem extends LitElement {
 
   static get properties() {
     return {
-      itemId: { type: String },
+      itemNumber: { type: Number },
       nameInURL: { type: String },
       loading: { type: Boolean },
       itemData: { type: Object },
@@ -207,22 +206,22 @@ class HTElementsItem extends LitElement {
     });
   }
 
-  set data(itemId) {
-    if (itemId === this.itemId) return;
-    this.itemId = itemId;
-    this._getItemData(itemId);
+  set data(itemNumber) {
+    if (itemNumber === this.itemNumber) return;
+    this.itemNumber = itemNumber;
+    this._getItemData(itemNumber);
   }
 
-  async _getItemData(itemId) {
+  async _getItemData(itemNumber) {
     try {
       this.loading = true;
       let snapshot = await firebase
         .firestore()
         .collection("items")
-        .doc(itemId)
+        .where("itemNumber", "==", itemNumber)
         .get();
       this.loading = false;
-      if (!snapshot.exists) {
+      if (snapshot.empty) {
         this.dispatchEvent(
           new CustomEvent("page-not-found", {
             bubbles: true,
@@ -231,7 +230,12 @@ class HTElementsItem extends LitElement {
         );
         return;
       }
-      this.itemData = snapshot.data();
+      let itemData = {};
+      snapshot.forEach(doc => {
+        itemData = doc.data();
+        itemData.itemId = doc.id;
+      });
+      this.itemData = itemData;
       if (this.itemData.nameInURL !== this.nameInURL) {
         this.dispatchEvent(
           new CustomEvent("page-not-found", {
