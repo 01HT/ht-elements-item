@@ -31,7 +31,7 @@ class HTElementsItemDate extends LitElement {
 
   static get properties() {
     return {
-      data: { type: String }
+      data: { type: Object }
     };
   }
 }
