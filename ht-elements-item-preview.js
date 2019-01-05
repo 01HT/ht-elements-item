@@ -13,6 +13,7 @@ class HTElementsItemPreview extends LitElement {
     const { active, data } = this;
     if (data === undefined || Object.keys(data).length === 0) return;
     return html`
+    ${SharedStyles}
     <style>
         :host {
             display: block;
@@ -29,6 +30,20 @@ class HTElementsItemPreview extends LitElement {
         ht-image { 
             width:100%;
         }
+
+        paper-button {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        paper-button[disabled] {
+            background: #eaeaea;
+            color: #a8a8a8;
+        }
+
+        paper-button iron-icon {
+            margin-right: 8px;
+        }
         
         paper-icon-button { 
             padding:11px !important;
@@ -38,12 +53,12 @@ class HTElementsItemPreview extends LitElement {
             height: 48px;
             border-radius:50%;
             margin:0 4px;
-            
         }
 
         paper-icon-button[selected] {
-            background:var(--accent-color);
-            color:#fff;
+            color: var(--accent-color);
+            /* background:var(--accent-color);
+            color:#fff; */
         }
     
         #container {
@@ -70,11 +85,28 @@ class HTElementsItemPreview extends LitElement {
             display:flex;
         }
 
+        #preview {
+            display:flex;
+            justify-content:center;
+        }
+
         #actions {
             display: flex;
+            align-items: center;
             flex-wrap: wrap;
-            justify-content:center;
-            padding: 8px;
+            justify-content: center;
+            padding: 8px 16px;
+        }
+
+        #preview-demo, #preview-mode {
+            margin: 8px 0;
+        }
+
+        #preview-mode {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0 8px;
         }
 
         [hidden] {
@@ -178,49 +210,53 @@ class HTElementsItemPreview extends LitElement {
             }
         </section>
         <section id="actions">
-            ${
-              data.demoURL !== ""
-                ? html`<a href=${
-                    data.demoURL
-                  } target="_blank" ?hidden=${data.demoURL ===
-                    ""} rel="noopener">
-            <paper-icon-button id="demo" icon="ht-elements-item-preview:remove-red-eye"></paper-icon-button>
+            <div id="preview-demo">
+               ${
+                 data.demoURL !== ""
+                   ? html`<a href=${
+                       data.demoURL
+                     } target="_blank" ?hidden=${data.demoURL ===
+                       ""} rel="noopener">
+                <paper-button raised><iron-icon icon="ht-elements-item-preview:remove-red-eye"></iron-icon>Просмотр</paper-button>
             </a>`
-                : ""
-            }
-            ${
-              Object.keys(data.youtube).length > 0
-                ? html`<paper-icon-button id="youtube" ?selected=${active ==
-                    "youtube"} icon="ht-elements-item-preview:youtube" @click=${e => {
-                    this._changeActive("youtube");
-                  }} ?hidden=${data.videoId === ""}></paper-icon-button>`
-                : ""
-            }
-            ${
-              Object.keys(data.animated).length > 0
-                ? html`<paper-icon-button id="animated" ?selected=${active ==
-                    "animated"} icon="ht-elements-item-preview:animated" @click=${e => {
-                    this._changeActive("animated");
-                  }}></paper-icon-button>`
-                : ""
-            }
-            ${
-              Object.keys(data.slider).length > 0
-                ? html`<paper-icon-button id="slider" ?selected=${active ==
-                    "slider"} icon="ht-elements-item-preview:slider" @click=${e => {
-                    this._changeActive("slider");
-                  }}></paper-icon-button>`
-                : ""
-            }
-            <paper-icon-button id="image" ?selected=${active ==
-              "image"} icon="ht-elements-item-preview:image" @click=${e => {
+                   : html`<paper-button raised disabled><iron-icon icon="ht-elements-item-preview:remove-red-eye"></iron-icon>Просмотр</paper-button>`
+               }
+            </div>
+            <div id="preview-mode">
+                ${
+                  Object.keys(data.youtube).length > 0
+                    ? html`<paper-icon-button id="youtube" ?selected=${active ==
+                        "youtube"} icon="ht-elements-item-preview:youtube" @click=${e => {
+                        this._changeActive("youtube");
+                      }} ?hidden=${data.videoId === ""}></paper-icon-button>`
+                    : ""
+                }
+                ${
+                  Object.keys(data.animated).length > 0
+                    ? html`<paper-icon-button id="animated" ?selected=${active ==
+                        "animated"} icon="ht-elements-item-preview:animated" @click=${e => {
+                        this._changeActive("animated");
+                      }}></paper-icon-button>`
+                    : ""
+                }
+                ${
+                  Object.keys(data.slider).length > 0
+                    ? html`<paper-icon-button id="slider" ?selected=${active ==
+                        "slider"} icon="ht-elements-item-preview:slider" @click=${e => {
+                        this._changeActive("slider");
+                      }}></paper-icon-button>`
+                    : ""
+                }
+                <paper-icon-button id="image" ?selected=${active ==
+                  "image"} icon="ht-elements-item-preview:image" @click=${e => {
       this._changeActive("image");
     }}></paper-icon-button>
-            <a href="https://github.com/${
-              data.repositoryURL
-            }" target="_blank" rel="noopener">
-                <paper-icon-button id="github" icon="ht-elements-item-preview:github"></paper-icon-button>
-            </a>
+                <a href="https://github.com/${
+                  data.repositoryURL
+                }" target="_blank" rel="noopener">
+                    <paper-icon-button id="github" icon="ht-elements-item-preview:github"></paper-icon-button>
+                </a>
+            </div>
         </section>
     </div>
 `;
