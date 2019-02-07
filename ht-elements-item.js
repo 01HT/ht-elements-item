@@ -14,7 +14,10 @@ import "./ht-elements-item-block-browsers.js";
 import "./ht-elements-item-block-tools.js";
 import "./ht-elements-item-block-tags.js";
 import "./ht-elements-item-copyright.js";
-import { updateMetadata } from "pwa-helpers/metadata.js";
+import {
+  updateMetadata,
+  getMetaDescriptionFromQuillObject
+} from "@01ht/ht-client-helper-functions/metadata.js";
 
 class HTElementsItem extends LitElement {
   render() {
@@ -197,12 +200,31 @@ class HTElementsItem extends LitElement {
 
   updated() {
     if (this.itemData.name === undefined) return;
+    let description = this.itemData.metaDescription;
+    if (description == "") {
+      try {
+        description = getMetaDescriptionFromQuillObject(
+          JSON.parse(this.itemData.description)
+        );
+      } catch (err) {
+        description = "";
+      }
+    }
+    if (description == "") {
+      description = `${this.itemData.name} | ${
+        this.itemData.authorData.displayName
+      }`;
+    }
     updateMetadata({
-      title: `${this.itemData.name} | Elements`,
-      // description: info.description,
+      title: `${this.itemData.name} | ${this.itemData.authorData.displayName}`,
       image: `${window.cloudinaryURL}/image/upload/c_scale,f_auto,w_512/v${
         this.itemData.image.version
-      }/${this.itemData.image.public_id}.jpg`
+      }/${this.itemData.image.public_id}.jpg`,
+      imageAlt: `${this.itemData.name}`,
+      canonical: `https://elements.01.ht/item/${this.itemData.nameInURL}/${
+        this.itemData.itemNumber
+      }`,
+      description: description
     });
   }
 
