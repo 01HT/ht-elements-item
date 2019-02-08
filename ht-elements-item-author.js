@@ -1,14 +1,12 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/paper-button";
 import "@01ht/ht-user-avatar";
 
 class HTElementsItemAuthor extends LitElement {
-  render() {
-    const { authorData } = this;
-    return html`
-    ${SharedStyles}
-    <style>
+  static styles = [
+    window.SharedStyles,
+    css`<style>
         :host {
           display: block;
           position: relative;
@@ -53,10 +51,15 @@ class HTElementsItemAuthor extends LitElement {
         #portfolio {
           text-decoration: none;
         }
-    </style>
+    </style>`
+  ];
+
+  render() {
+    const { authorData } = this;
+    return html`
     <div id="container">
         <div id="author">
-            <ht-user-avatar .data=${authorData} size="42" verified-size="16"></ht-user-avatar>
+            <ht-user-avatar .data="${authorData}" .size="42" .verified-size="16"></ht-user-avatar>
             <a id="name" href="/${authorData.isOrg ? "organization" : "user"}/${
       authorData.nameInURL
     }/${
@@ -78,10 +81,6 @@ class HTElementsItemAuthor extends LitElement {
 `;
   }
 
-  static get is() {
-    return "ht-elements-item-author";
-  }
-
   static get properties() {
     return {
       authorData: { type: Object }
@@ -98,4 +97,4 @@ class HTElementsItemAuthor extends LitElement {
   }
 }
 
-customElements.define(HTElementsItemAuthor.is, HTElementsItemAuthor);
+customElements.define("ht-elements-item-author", HTElementsItemAuthor);

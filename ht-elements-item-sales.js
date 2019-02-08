@@ -1,36 +1,37 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 
 class HTElementsItemSales extends LitElement {
+  static styles = css`<style>
+    :host {
+        display: block;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    iron-icon {
+        --iron-icon-height: 32px;
+        --iron-icon-width: 32px;
+    }
+
+    #container {
+        display:flex;
+        flex-wrap:wrap;
+        align-items:center;
+        color:var(--secondary-text-color);
+    }
+
+    #number {
+        font-weight:500;
+        margin:0 4px;
+    }
+</style>`;
+
   render() {
     const { sales } = this;
     return html`
-    <style>
-        :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        iron-icon {
-            --iron-icon-height: 32px;
-            --iron-icon-width: 32px;
-        }
-
-        #container {
-            display:flex;
-            flex-wrap:wrap;
-            align-items:center;
-            color:var(--secondary-text-color);
-        }
-
-        #number {
-            font-weight:500;
-            margin:0 4px;
-        }
-    </style>
     <iron-iconset-svg size="24" name="ht-elements-item-sales">
     <svg>
         <defs>
@@ -48,10 +49,6 @@ class HTElementsItemSales extends LitElement {
 `;
   }
 
-  static get is() {
-    return "ht-elements-item-sales";
-  }
-
   static get properties() {
     return {
       sales: { type: Number }
@@ -67,4 +64,4 @@ class HTElementsItemSales extends LitElement {
   }
 }
 
-customElements.define(HTElementsItemSales.is, HTElementsItemSales);
+customElements.define("ht-elements-item-sales", HTElementsItemSales);

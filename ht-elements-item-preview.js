@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@polymer/paper-icon-button";
@@ -9,12 +9,9 @@ import "@01ht/ht-animated-image";
 import "@01ht/ht-elements-item-youtube-preview";
 
 class HTElementsItemPreview extends LitElement {
-  render() {
-    const { active, data } = this;
-    if (data === undefined || Object.keys(data).length === 0) return;
-    return html`
-    ${SharedStyles}
-    <style>
+  static styles = [
+    window.SharedStyles,
+    css`<style>
         :host {
             display: block;
             position: relative;
@@ -112,7 +109,13 @@ class HTElementsItemPreview extends LitElement {
         [hidden] {
             display:none;
         }
-    </style>
+    </style>`
+  ];
+
+  render() {
+    const { active, data } = this;
+    if (data === undefined || Object.keys(data).length === 0) return;
+    return html`
     <iron-iconset-svg size="24" name="ht-elements-item-preview">
         <svg>
             <defs>
@@ -176,36 +179,38 @@ class HTElementsItemPreview extends LitElement {
         <section id="media">
             ${
               active === "image"
-                ? html`<ht-image placeholder="${
+                ? html`<ht-image .placeholder="${
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg" image="${
+                  }.jpg" .image="${
                     window.cloudinaryURL
                   }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
                     data.image.public_id
-                  }.jpg" size="16x9" .altText=${data.name}></ht-image>`
+                  }.jpg" .size="16x9" .altText="${data.name}"></ht-image>`
                 : ""
             }
             ${
               active === "slider"
-                ? html`<ht-image-slider .data=${data.slider} .altText=${
+                ? html`<ht-image-slider .data="${data.slider}" .altText="${
                     data.name
-                  }></ht-image-slider>`
+                  }"></ht-image-slider>`
                 : ""
             }
             ${
               active === "animated"
-                ? html`<ht-animated-image loop .data=${
+                ? html`<ht-animated-image loop .data="${
                     data.animated
-                  }></ht-animated-image>`
+                  }"></ht-animated-image>`
                 : ""
             }
             ${
               active === "youtube"
-                ? html`<ht-elements-item-youtube-preview .data=${
+                ? html`<ht-elements-item-youtube-preview .data="${
                     data.youtube
-                  } .titleText=${data.name}></ht-elements-item-youtube-preview>`
+                  }" .titleText="${
+                    data.name
+                  }"></ht-elements-item-youtube-preview>`
                 : ""
             }
         </section>
@@ -213,10 +218,10 @@ class HTElementsItemPreview extends LitElement {
             <div id="preview-demo">
                ${
                  data.demoURL !== ""
-                   ? html`<a href=${
+                   ? html`<a href="${
                        data.demoURL
-                     } target="_blank" ?hidden=${data.demoURL ===
-                       ""} rel="noopener">
+                     }" target="_blank" ?hidden="${data.demoURL ===
+                       ""}" rel="noopener">
                 <paper-button raised><iron-icon icon="ht-elements-item-preview:remove-red-eye"></iron-icon>Просмотр</paper-button>
             </a>`
                    : html`<paper-button raised disabled><iron-icon icon="ht-elements-item-preview:remove-red-eye"></iron-icon>Просмотр</paper-button>`
@@ -225,30 +230,30 @@ class HTElementsItemPreview extends LitElement {
             <div id="preview-mode">
                 ${
                   Object.keys(data.youtube).length > 0
-                    ? html`<paper-icon-button id="youtube" ?selected=${active ==
-                        "youtube"} icon="ht-elements-item-preview:youtube" @click=${e => {
+                    ? html`<paper-icon-button id="youtube" ?selected="${active ==
+                        "youtube"}" icon="ht-elements-item-preview:youtube" @click=${e => {
                         this._changeActive("youtube");
-                      }} ?hidden=${data.videoId === ""}></paper-icon-button>`
+                      }} ?hidden="${data.videoId === ""}"></paper-icon-button>`
                     : ""
                 }
                 ${
                   Object.keys(data.animated).length > 0
-                    ? html`<paper-icon-button id="animated" ?selected=${active ==
-                        "animated"} icon="ht-elements-item-preview:animated" @click=${e => {
+                    ? html`<paper-icon-button id="animated" ?selected="${active ==
+                        "animated"}" icon="ht-elements-item-preview:animated" @click=${e => {
                         this._changeActive("animated");
                       }}></paper-icon-button>`
                     : ""
                 }
                 ${
                   Object.keys(data.slider).length > 0
-                    ? html`<paper-icon-button id="slider" ?selected=${active ==
-                        "slider"} icon="ht-elements-item-preview:slider" @click=${e => {
+                    ? html`<paper-icon-button id="slider" ?selected="${active ==
+                        "slider"}" icon="ht-elements-item-preview:slider" @click=${e => {
                         this._changeActive("slider");
                       }}></paper-icon-button>`
                     : ""
                 }
-                <paper-icon-button id="image" ?selected=${active ==
-                  "image"} icon="ht-elements-item-preview:image" @click=${e => {
+                <paper-icon-button id="image" ?selected="${active ==
+                  "image"}" icon="ht-elements-item-preview:image" @click=${e => {
       this._changeActive("image");
     }}></paper-icon-button>
                 <a href="https://github.com/${
@@ -260,10 +265,6 @@ class HTElementsItemPreview extends LitElement {
         </section>
     </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-item-preview";
   }
 
   static get properties() {
@@ -283,4 +284,4 @@ class HTElementsItemPreview extends LitElement {
   }
 }
 
-customElements.define(HTElementsItemPreview.is, HTElementsItemPreview);
+customElements.define("ht-elements-item-preview", HTElementsItemPreview);

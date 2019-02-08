@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@01ht/ht-spinner";
 import "./ht-elements-item-preview.js";
 import "./ht-elements-item-description.js";
@@ -20,17 +20,9 @@ import {
 } from "@01ht/ht-client-helper-functions/metadata.js";
 
 class HTElementsItem extends LitElement {
-  render() {
-    const {
-      itemData,
-      loading,
-      cartChangeInProcess,
-      orderCreating,
-      signedIn
-    } = this;
-    return html`
-    ${SharedStyles}
-    <style>
+  static styles = [
+    window.SharedStyles,
+    css`<style>
       ht-elements-item-author {
         margin-top: 32px;
       }
@@ -97,87 +89,94 @@ class HTElementsItem extends LitElement {
       [hidden] {
         display: none;
       }
-    </style>
+    </style>`
+  ];
+
+  render() {
+    const {
+      itemData,
+      loading,
+      cartChangeInProcess,
+      orderCreating,
+      signedIn
+    } = this;
+    return html`
     <div id="container">
         ${loading ? html`<ht-spinner page></ht-spinner>` : ""}
-        <section id="layout" ?hidden=${loading}>
+        <section id="layout" ?hidden="${loading}">
             <section id="preview">
                 <h1 class="mdc-typography--headline4">${itemData.name}</h1>
-                <ht-elements-item-preview .data=${itemData}></ht-elements-item-preview>
+                <ht-elements-item-preview .data="${itemData}"></ht-elements-item-preview>
             </section>
             <section id="sidebar">
-                <ht-elements-item-buy .signedIn=${signedIn} .cartChangeInProcess=${cartChangeInProcess} .orderCreating=${orderCreating} data=${JSON.stringify(
+                <ht-elements-item-buy .signedIn="${signedIn}" .cartChangeInProcess="${cartChangeInProcess}" .orderCreating=${orderCreating} .data="${JSON.stringify(
       {
         itemId: itemData.itemId,
         license: itemData.license
       }
-    )}></ht-elements-item-buy>
-                <ht-elements-item-author .data=${
+    )}"></ht-elements-item-buy>
+                <ht-elements-item-author .data="${
                   itemData.authorData
-                }></ht-elements-item-author>
+                }"></ht-elements-item-author>
 
-                <ht-elements-item-sales .data=${
+                <ht-elements-item-sales .data="${
                   itemData.sales
-                } ?hidden=${itemData.sales === 0}></ht-elements-item-sales>
+                }" ?hidden="${itemData.sales === 0}"></ht-elements-item-sales>
 
                 <ht-elements-item-data-section name="Последнее обновление">
-                  <ht-elements-item-date .data=${
+                  <ht-elements-item-date .data="${
                     itemData.updated
-                  }></ht-elements-item-date>
+                  }"></ht-elements-item-date>
                 </ht-elements-item-data-section>
                 
                 <ht-elements-item-data-section name="Дата создания">
-                  <ht-elements-item-date .data=${
+                  <ht-elements-item-date .data="${
                     itemData.created
-                  }></ht-elements-item-date>
+                  }"></ht-elements-item-date>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Категория">
-                  <ht-elements-item-category .data=${
+                  <ht-elements-item-category .data="${
                     itemData.categories
-                  }></ht-elements-item-category>
+                  }"></ht-elements-item-category>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Платформа">
-                  <ht-elements-item-block-platform .data=${
+                  <ht-elements-item-block-platform .data="${
                     itemData.attributes
-                  }></ht-elements-item-block-platform>
+                  }"></ht-elements-item-block-platform>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Совместимые браузеры">
-                  <ht-elements-item-block-browsers .data=${
+                  <ht-elements-item-block-browsers .data="${
                     itemData.attributes
-                  }></ht-elements-item-block-browsers>
+                  }"></ht-elements-item-block-browsers>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Инструменты">
-                  <ht-elements-item-block-tools .data=${
+                  <ht-elements-item-block-tools .data="${
                     itemData.attributes
-                  }></ht-elements-item-block-tools>
+                  }"></ht-elements-item-block-tools>
                 </ht-elements-item-data-section>
 
                 <ht-elements-item-data-section name="Теги">
-                  <ht-elements-item-block-tags .data=${
+                  <ht-elements-item-block-tags .data="${
                     itemData.tags
-                  }></ht-elements-item-block-tags>
+                  }"></ht-elements-item-block-tags>
                 </ht-elements-item-data-section>
 
-                <ht-elements-item-copyright .data=${
+                <ht-elements-item-copyright .data="${
                   itemData.copyright
-                }></ht-elements-item-copyright>
+                }"></ht-elements-item-copyright>
             </section>
             <section id="description">
-                <ht-elements-item-description .data=${
+                <ht-elements-item-description .data="${
                   itemData.description
-                }></ht-elements-item-description>
+                }"></ht-elements-item-description>
             </section>
         </section>
     </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-item";
   }
 
   static get properties() {
@@ -272,4 +271,4 @@ class HTElementsItem extends LitElement {
   }
 }
 
-customElements.define(HTElementsItem.is, HTElementsItem);
+customElements.define("ht-elements-item", HTElementsItem);

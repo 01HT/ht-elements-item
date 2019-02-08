@@ -1,29 +1,26 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 
 class HTElementsItemCopyright extends LitElement {
+  static styles = css`<style>
+    :host {
+        display: block;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    #container {
+        color: var(--secondary-text-color);
+    }
+</style>`;
+
   render() {
     const { copyright } = this;
     return html`
-    <style>
-        :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
-        }
-    
-        #container {
-            color: var(--secondary-text-color);
-        }
-    </style>
     <div id="container">
         ${copyright}
     </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-item-copyright";
   }
 
   static get properties() {
@@ -40,4 +37,4 @@ class HTElementsItemCopyright extends LitElement {
   }
 }
 
-customElements.define(HTElementsItemCopyright.is, HTElementsItemCopyright);
+customElements.define("ht-elements-item-copyright", HTElementsItemCopyright);

@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/paper-button";
 import "@polymer/iron-iconset-svg";
@@ -11,17 +11,9 @@ import "@polymer/paper-tooltip";
 import "@01ht/ht-spinner";
 
 class HTElementsItemBuy extends LitElement {
-  render() {
-    const {
-      signedIn,
-      license,
-      selected,
-      cartChangeInProcess,
-      orderCreating
-    } = this;
-    return html`
-    ${SharedStyles}
-    <style>
+  static styles = [
+    window.SharedStyles,
+    css`<style>
         :host {
             display: block;
             position: relative;
@@ -174,7 +166,18 @@ class HTElementsItemBuy extends LitElement {
         [hidden], #actions[hidden] {
             display:none;
         }
-    </style>
+    </style>`
+  ];
+
+  render() {
+    const {
+      signedIn,
+      license,
+      selected,
+      cartChangeInProcess,
+      orderCreating
+    } = this;
+    return html`
     <iron-iconset-svg size="24" name="ht-elements-item-buy">
         <svg>
             <defs>
@@ -201,16 +204,14 @@ class HTElementsItemBuy extends LitElement {
         <section id="changer">
             <div id="dropdown">
                 <iron-icon id="info" icon="ht-elements-item-buy:info-outline"></iron-icon>
-                <paper-dropdown-menu no-label-float ?disabled=${
+                <paper-dropdown-menu no-label-float ?disabled="${
                   license && license.length === 1 ? true : false
-                } no-animations @iron-select=${e => {
-      this._licenseChanged();
-    }}>
+                }" no-animations @iron-select="${this._licenseChanged}">
                 <paper-listbox slot="dropdown-content" class="dropdown-content">
                     ${repeat(
                       license,
                       item =>
-                        html`<paper-item .data=${item}>${
+                        html`<paper-item .data="${item}">${
                           item.name
                         }</paper-item>`
                     )}
@@ -219,10 +220,10 @@ class HTElementsItemBuy extends LitElement {
                 <paper-tooltip>${selected.description}</paper-tooltip>
             </div>
             <div id="price">
-                <span ?hidden=${!selected.free}>FREE</span>
-                <span id="number" ?hidden=${selected.free}>${
+                <span ?hidden="${!selected.free}">FREE</span>
+                <span id="number" ?hidden="${selected.free}">${
       selected.price
-    }</span><span id="suffix" ?hidden=${selected.free}>$</span>
+    }</span><span id="suffix" ?hidden="${selected.free}">$</span>
             </div>
         </section>
         <section id="description">
@@ -245,13 +246,13 @@ class HTElementsItemBuy extends LitElement {
         <section id="licenses-details">
             <a href="/license">Подробнее о лицензиях</a>
         </section>
-        <div id="actions" ?hidden=${selected.free}>
+        <div id="actions" ?hidden="${selected.free}">
             ${
               cartChangeInProcess
                 ? html`<ht-spinner button></ht-spinner>`
-                : html`<paper-button id="add-in-basket" raised ?disabled=${orderCreating} @click=${_ => {
-                    this._addToCart();
-                  }}><iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>`
+                : html`<paper-button id="add-in-basket" raised ?disabled="${orderCreating}" @click="${
+                    this._addToCart
+                  }"><iron-icon icon="ht-elements-item-buy:add-shopping-cart"></iron-icon>В корзину</paper-button>`
             }
             <div>
             ${
@@ -259,9 +260,9 @@ class HTElementsItemBuy extends LitElement {
                 ? html`<ht-spinner id="buy-now-spinner" button></ht-spinner>`
                 : html`${
                     !orderCreating && signedIn && !cartChangeInProcess
-                      ? html`<paper-button id="buy-now" raised @click=${_ => {
-                          this._buyNow();
-                        }}>
+                      ? html`<paper-button id="buy-now" raised @click=${
+                          this._buyNow
+                        }>
                     <iron-icon icon="ht-elements-item-buy:flash-on"></iron-icon>Купить Сейчас
                     </paper-button>`
                       : html`<paper-button id="buy-now" raised disabled>
@@ -270,15 +271,11 @@ class HTElementsItemBuy extends LitElement {
                   }`
             }
                 
-                    <paper-tooltip ?hidden=${signedIn}>Для быстрой покупки войдите в приложение</paper-tooltip>
+                    <paper-tooltip ?hidden="${signedIn}">Для быстрой покупки войдите в приложение</paper-tooltip>
                 </div>
         </div>
     </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-item-buy";
   }
 
   static get properties() {
@@ -365,4 +362,4 @@ class HTElementsItemBuy extends LitElement {
   }
 }
 
-customElements.define(HTElementsItemBuy.is, HTElementsItemBuy);
+customElements.define("ht-elements-item-buy", HTElementsItemBuy);
