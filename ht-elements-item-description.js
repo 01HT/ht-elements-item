@@ -2,14 +2,12 @@
 import { LitElement, html, css } from "lit-element";
 import "@01ht/ht-wysiwyg/ht-wysiwyg-viewer.js";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsItemDescription extends LitElement {
-  static styles = css`<style>
-    :host {
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-    }
-</style>`;
+  static get styles() {
+    return [stylesBasicWebcomponents, css``];
+  }
 
   render() {
     if (this.data === undefined) return;

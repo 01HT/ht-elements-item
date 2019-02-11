@@ -10,164 +10,165 @@ import "@polymer/paper-item/paper-item.js";
 import "@polymer/paper-tooltip";
 import "@01ht/ht-spinner";
 
+import { styles } from "@01ht/ht-theme/styles";
+
 class HTElementsItemBuy extends LitElement {
-  static styles = [
-    window.SharedStyles,
-    css`<style>
-        :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
-        }
-    
+  static get styles() {
+    return [
+      styles,
+      css`
         a {
-            display: block;
-            text-decoration: none;
+          display: block;
+          text-decoration: none;
         }
 
-        paper-button{
-            margin:0;
-            padding:8px 16px;
-            min-height:52px;
+        paper-button {
+          margin: 0;
+          padding: 8px 16px;
+          min-height: 52px;
         }
-        
+
         paper-listbox {
-            width: 100%;
-            --paper-listbox-background-color: #fff;
+          width: 100%;
+          --paper-listbox-background-color: #fff;
         }
 
         paper-item {
-            cursor:pointer;
+          cursor: pointer;
         }
 
         #container {
-            display:flex;
-            flex-direction:column;
-            max-width: 386px;
-            margin:auto;
-            position:relative;
-            padding: 24px;
-            border-radius:3px;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          display: flex;
+          flex-direction: column;
+          max-width: 386px;
+          margin: auto;
+          position: relative;
+          padding: 24px;
+          border-radius: 3px;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
         }
 
         #title {
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 16px;
+          font-size: 18px;
+          font-weight: 400;
+          margin-bottom: 16px;
         }
 
         #changer {
-            display: flex;
-            align-items: center;
-            flex-wrap: nowrap;
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
         }
 
         #changer #dropdown {
-            position: relative;
-            margin-right: 24px;
-            display: flex;
-            flex: 1;
-            align-items: center;
+          position: relative;
+          margin-right: 24px;
+          display: flex;
+          flex: 1;
+          align-items: center;
         }
 
         #info {
-            color: var(--accent-color);
-            margin-right: 8px;
+          color: var(--accent-color);
+          margin-right: 8px;
         }
 
         #changer paper-dropdown-menu {
-            flex: 1;
+          flex: 1;
         }
 
         #price {
-            font-size: 28px;
-            font-weight: 400;
-            display: flex;
-            align-items:center;
+          font-size: 28px;
+          font-weight: 400;
+          display: flex;
+          align-items: center;
         }
-        
+
         #suffix {
-            font-size: 18px;
-            margin-left: 2px;
-            color: var(--secondary-text-color);
+          font-size: 18px;
+          margin-left: 2px;
+          color: var(--secondary-text-color);
         }
 
         #description {
-            display:flex;
-            flex-direction:column;
-            margin-top:8px;
+          display: flex;
+          flex-direction: column;
+          margin-top: 8px;
         }
 
         .description-item {
-            display: flex;
-            align-items:center;
-            cursor: default;
-            float:left;
-            margin-bottom: 4px;
-            font-size: 14px;
-            position:relative;
+          display: flex;
+          align-items: center;
+          cursor: default;
+          float: left;
+          margin-bottom: 4px;
+          font-size: 14px;
+          position: relative;
         }
-        
+
         .description-item iron-icon {
-            margin-right: 8px;
+          margin-right: 8px;
         }
-        
+
         iron-icon[icon="ht-elements-item-buy:check"] {
-            color: var(--accent-color);
+          color: var(--accent-color);
         }
-        
+
         iron-icon[icon="ht-elements-item-buy:clear"] {
-            color: #d22f2f;
+          color: #d22f2f;
         }
 
         #licenses-details {
-            margin-top: 12px;
-            font-size:14px;
+          margin-top: 12px;
+          font-size: 14px;
         }
 
         #licenses-details > a {
-            float:left;
+          float: left;
         }
 
         #actions {
-            display:flex;
-            flex-direction:column;
-            margin-top: 24px;
+          display: flex;
+          flex-direction: column;
+          margin-top: 24px;
         }
 
         #add-in-basket {
-            background: var(--accent-color);
+          background: var(--accent-color);
         }
 
         ht-spinner {
-            display:flex;
-            height: 52px;
-            justify-content:center;
-            align-items:center;
+          display: flex;
+          height: 52px;
+          justify-content: center;
+          align-items: center;
         }
-        
+
         #buy-now {
-            position:relative;
-            margin-top:16px;
-            background:#737373;
-            /* background:#039be5; */
-            width:100%;
+          position: relative;
+          margin-top: 16px;
+          background: #737373;
+          /* background:#039be5; */
+          width: 100%;
         }
 
         #buy-now-spinner {
-            margin-top:16px;
+          margin-top: 16px;
         }
 
-        #buy-now[disabled], #add-in-basket[disabled] {
-            background: #ccc;
+        #buy-now[disabled],
+        #add-in-basket[disabled] {
+          background: #ccc;
         }
 
-        [hidden], #actions[hidden] {
-            display:none;
+        [hidden],
+        #actions[hidden] {
+          display: none;
         }
-    </style>`
-  ];
+      `
+    ];
+  }
 
   render() {
     const {

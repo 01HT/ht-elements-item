@@ -19,78 +19,82 @@ import {
   getMetaDescriptionFromQuillObject
 } from "@01ht/ht-client-helper-functions/metadata.js";
 
+import { styles } from "@01ht/ht-theme/styles";
+
 class HTElementsItem extends LitElement {
-  static styles = [
-    window.SharedStyles,
-    css`<style>
-      ht-elements-item-author {
-        margin-top: 32px;
-      }
+  static get styles() {
+    return [
+      styles,
+      css`
+        ht-elements-item-author {
+          margin-top: 32px;
+        }
 
-      ht-elements-item-preview {
-        margin-top: 32px;
-        position:relative;
-      }
-      
-      ht-elements-item-sales {
-        margin-top:32px;
-      }
+        ht-elements-item-preview {
+          margin-top: 32px;
+          position: relative;
+        }
 
-      ht-elements-item-data-section  {
-        margin-top:32px;
-      }
+        ht-elements-item-sales {
+          margin-top: 32px;
+        }
 
-      ht-elements-item-copyright {
-        margin-top:32px;
-      }
+        ht-elements-item-data-section {
+          margin-top: 32px;
+        }
 
-      #layout {
-        display:grid;
-        grid-template-columns: 1fr 386px;
-        grid-template-rows: auto 1fr;
-        grid-gap: 64px;
-      }
+        ht-elements-item-copyright {
+          margin-top: 32px;
+        }
 
-      #preview {
-        grid-row: 1;
-      }
-
-      #sidebar {
-        grid-row: 1 / 3;
-        margin-top:32px;
-      }
-
-      #description {
-        grid-row: 2;
-        margin-top:-32px;
-        overflow: auto;
-      }
-
-      #layout[hidden] {
-          display: none;
-      }
-
-      @media (max-width:1000px) {
         #layout {
-          grid-template-columns: 1fr;
-          grid-gap: 32px;
+          display: grid;
+          grid-template-columns: 1fr 386px;
+          grid-template-rows: auto 1fr;
+          grid-gap: 64px;
+        }
+
+        #preview {
+          grid-row: 1;
         }
 
         #sidebar {
-          grid-row: 2;
-          margin-top: 0;
+          grid-row: 1 / 3;
+          margin-top: 32px;
         }
 
         #description {
-          grid-row: 3;
+          grid-row: 2;
+          margin-top: -32px;
+          overflow: auto;
         }
-      }
 
-      [hidden] {
-        display: none;
-      }
-    </style>`
-  ];
+        #layout[hidden] {
+          display: none;
+        }
+
+        @media (max-width: 1000px) {
+          #layout {
+            grid-template-columns: 1fr;
+            grid-gap: 32px;
+          }
+
+          #sidebar {
+            grid-row: 2;
+            margin-top: 0;
+          }
+
+          #description {
+            grid-row: 3;
+          }
+        }
+
+        [hidden] {
+          display: none;
+        }
+      `
+    ];
+  }
 
   render() {
     const {

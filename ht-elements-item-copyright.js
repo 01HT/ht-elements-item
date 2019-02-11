@@ -1,18 +1,19 @@
 "use strict";
 import { LitElement, html, css } from "lit-element";
 
-class HTElementsItemCopyright extends LitElement {
-  static styles = css`<style>
-    :host {
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-    }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
-    #container {
-        color: var(--secondary-text-color);
-    }
-</style>`;
+class HTElementsItemCopyright extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #container {
+          color: var(--secondary-text-color);
+        }
+      `
+    ];
+  }
 
   render() {
     const { copyright } = this;

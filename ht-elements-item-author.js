@@ -3,56 +3,54 @@ import { LitElement, html, css } from "lit-element";
 import "@polymer/paper-button";
 import "@01ht/ht-user-avatar";
 
-class HTElementsItemAuthor extends LitElement {
-  static styles = [
-    window.SharedStyles,
-    css`<style>
-        :host {
-          display: block;
-          position: relative;
-          box-sizing: border-box;
-        }
+import { styles } from "@01ht/ht-theme/styles";
 
+class HTElementsItemAuthor extends LitElement {
+  static get styles() {
+    return [
+      styles,
+      css`
         a {
-          display:block;
+          display: block;
         }
 
         ht-user-avatar {
-          margin-right:8px;
+          margin-right: 8px;
         }
 
         paper-button {
-          margin:0;
-          width:100%;
+          margin: 0;
+          width: 100%;
           background: #fff;
           color: #424242;
         }
 
         #container {
-            display:flex;
+          display: flex;
         }
 
         #author {
-          display:flex; 
+          display: flex;
           flex-wrap: wrap;
-          align-items:center;
-          margin:0;
+          align-items: center;
+          margin: 0;
           color: var(--secondary-text-color);
         }
 
         #author a#name:hover {
-          text-decoration:underline;
+          text-decoration: underline;
         }
 
         #name {
-          margin-right:16px;
+          margin-right: 16px;
         }
 
         #portfolio {
           text-decoration: none;
         }
-    </style>`
-  ];
+      `
+    ];
+  }
 
   render() {
     const { authorData } = this;

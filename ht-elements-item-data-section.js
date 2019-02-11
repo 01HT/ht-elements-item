@@ -1,24 +1,25 @@
 "use strict";
 import { LitElement, html, css } from "lit-element";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsItemDataSection extends LitElement {
-  static styles = css`<style>
-    :host {
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-    }
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #container {
+          display: flex;
+          flex-direction: column;
+        }
 
-    #container {
-        display: flex;
-        flex-direction:column;
-    }
-
-    #name {
-        font-weight:500;
-        margin-right: 8px;
-    }
-</style>`;
+        #name {
+          font-weight: 500;
+          margin-right: 8px;
+        }
+      `
+    ];
+  }
 
   render() {
     const { name } = this;

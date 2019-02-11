@@ -4,33 +4,34 @@ import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
 
-class HTElementsItemBlockBrowsers extends LitElement {
-  static styles = css`<style>
-      :host {
-          display: block;
-          position: relative;
-          box-sizing: border-box;
-      }
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
-      #container {
+class HTElementsItemBlockBrowsers extends LitElement {
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #container {
           display: flex;
           flex-wrap: wrap;
           margin-top: 16px;
-      }
+        }
 
-      a {
+        a {
           margin-right: 8px;
           margin-bottom: 8px;
-      }
+        }
 
-      #empty {
-        color: var(--secondary-text-color);
-      }
+        #empty {
+          color: var(--secondary-text-color);
+        }
 
-      [hidden] {
-        display: none;
-      }
-  </style>`;
+        [hidden] {
+          display: none;
+        }
+      `
+    ];
+  }
 
   render() {
     const { items } = this;

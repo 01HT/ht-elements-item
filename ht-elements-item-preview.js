@@ -8,113 +8,111 @@ import "@01ht/ht-image-slider";
 import "@01ht/ht-animated-image";
 import "@01ht/ht-elements-item-youtube-preview";
 
+import { styles } from "@01ht/ht-theme/styles";
+
 class HTElementsItemPreview extends LitElement {
-  static styles = [
-    window.SharedStyles,
-    css`<style>
-        :host {
-            display: block;
-            position: relative;
-            box-sizing: border-box;
-        }
-    
+  static get styles() {
+    return [
+      styles,
+      css`
         a {
-            display: block;
-            color: inherit;
-            text-decoration: none;
+          display: block;
+          color: inherit;
+          text-decoration: none;
         }
 
-        ht-image { 
-            width:100%;
+        ht-image {
+          width: 100%;
         }
 
         paper-button {
-            background: var(--accent-color);
-            color: #fff;
+          background: var(--accent-color);
+          color: #fff;
         }
 
         paper-button[disabled] {
-            background: #eaeaea;
-            color: #a8a8a8;
+          background: #eaeaea;
+          color: #a8a8a8;
         }
 
         paper-button iron-icon {
-            margin-right: 8px;
+          margin-right: 8px;
         }
-        
-        paper-icon-button { 
-            padding:11px !important;
-            background:#fff;
-            color: var(--secondary-text-color);
-            width:48px;
-            height: 48px;
-            border-radius:50%;
-            margin:0 4px;
+
+        paper-icon-button {
+          padding: 11px !important;
+          background: #fff;
+          color: var(--secondary-text-color);
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          margin: 0 4px;
         }
 
         paper-icon-button[selected] {
-            color: var(--accent-color);
-            /* background:var(--accent-color);
-            color:#fff; */
+          color: var(--accent-color);
         }
-    
+
         #container {
-            display: flex;
-            flex-direction:column;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
         }
 
         #media {
-            padding-bottom: 56.25%;
-            position:relative;
+          padding-bottom: 56.25%;
+          position: relative;
+          overflow: hidden;
         }
 
         #media > * {
-            width:100%;
-            position:absolute;
-            top:0;
-            right:0;
-            bottom:0;
-            left:0;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
         }
 
         #media > [active] {
-            display:flex;
+          display: flex;
         }
 
         #preview {
-            display:flex;
-            justify-content:center;
+          display: flex;
+          justify-content: center;
         }
 
         #actions {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 8px 16px;
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          justify-content: center;
+          padding: 8px 16px;
         }
 
-        #preview-demo, #preview-mode {
-            margin: 8px 0;
+        #preview-demo,
+        #preview-mode {
+          margin: 8px 0;
         }
 
         #preview-mode {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0 8px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          padding: 0 8px;
         }
 
         [hidden] {
-            display:none;
+          display: none;
         }
-    </style>`
-  ];
+      `
+    ];
+  }
 
   render() {
     const { active, data } = this;
-    if (data === undefined || Object.keys(data).length === 0) return;
     return html`
     <iron-iconset-svg size="24" name="ht-elements-item-preview">
         <svg>
@@ -274,8 +272,12 @@ class HTElementsItemPreview extends LitElement {
     };
   }
 
-  shouldUpdate(changedProps) {
-    if (changedProps.has("data")) this.active = this.data.previewMode;
+  shouldUpdate(changedProperties) {
+    if (changedProperties.has("data")) {
+      if (this.data === undefined || Object.keys(this.data).length === 0)
+        return false;
+      this.active = this.data.previewMode;
+    }
     return true;
   }
 

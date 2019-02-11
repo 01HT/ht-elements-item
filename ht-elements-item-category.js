@@ -5,42 +5,43 @@ import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsItemCategory extends LitElement {
-  static styles = css`<style>
-    :host {
-      display: block;
-      position: relative;
-      box-sizing: border-box;
-    }
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        #container {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          margin-top: 16px;
+        }
 
-    #container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items:center;
-      margin-top: 16px;
-    }
+        #container > iron-icon {
+          color: var(--secondary-text-color);
+          margin-bottom: 8px;
+        }
 
-    #container > iron-icon { 
-      color: var(--secondary-text-color); 
-      margin-bottom: 8px;
-    }
+        #container > iron-icon:first-child {
+          display: none;
+        }
 
-    #container > iron-icon:first-child {
-      display:none;
-    }
+        a {
+          margin-bottom: 8px;
+        }
 
-    a {
-      margin-bottom: 8px;
-    }
+        #empty {
+          color: var(--secondary-text-color);
+        }
 
-    #empty {
-      color: var(--secondary-text-color);
-    }
-
-    [hidden] {
-      display: none;
-    }
-  </style>`;
+        [hidden] {
+          display: none;
+        }
+      `
+    ];
+  }
 
   render() {
     const { items } = this;

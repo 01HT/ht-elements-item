@@ -3,31 +3,32 @@ import { LitElement, html, css } from "lit-element";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 
+import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
+
 class HTElementsItemSales extends LitElement {
-  static styles = css`<style>
-    :host {
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-    }
+  static get styles() {
+    return [
+      stylesBasicWebcomponents,
+      css`
+        iron-icon {
+          --iron-icon-height: 32px;
+          --iron-icon-width: 32px;
+        }
 
-    iron-icon {
-        --iron-icon-height: 32px;
-        --iron-icon-width: 32px;
-    }
+        #container {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          color: var(--secondary-text-color);
+        }
 
-    #container {
-        display:flex;
-        flex-wrap:wrap;
-        align-items:center;
-        color:var(--secondary-text-color);
-    }
-
-    #number {
-        font-weight:500;
-        margin:0 4px;
-    }
-</style>`;
+        #number {
+          font-weight: 500;
+          margin: 0 4px;
+        }
+      `
+    ];
+  }
 
   render() {
     const { sales } = this;
