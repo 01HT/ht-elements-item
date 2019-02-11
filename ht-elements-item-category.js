@@ -30,6 +30,8 @@ class HTElementsItemCategory extends LitElement {
 
         a {
           margin-bottom: 8px;
+          text-decoration: none;
+          outline: none;
         }
 
         #empty {

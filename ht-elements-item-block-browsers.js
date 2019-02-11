@@ -20,6 +20,8 @@ class HTElementsItemBlockBrowsers extends LitElement {
         a {
           margin-right: 8px;
           margin-bottom: 8px;
+          text-decoration: none;
+          outline: none;
         }
 
         #empty {

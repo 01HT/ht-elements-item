@@ -231,7 +231,8 @@ class HTElementsItemPreview extends LitElement {
                     ? html`<paper-icon-button id="youtube" ?selected="${active ==
                         "youtube"}" icon="ht-elements-item-preview:youtube" @click=${e => {
                         this._changeActive("youtube");
-                      }} ?hidden="${data.videoId === ""}"></paper-icon-button>`
+                      }} ?hidden="${data.videoId ===
+                        ""}" aria-label="Предпросмотр YouTube"></paper-icon-button>`
                     : ""
                 }
                 ${
@@ -239,7 +240,7 @@ class HTElementsItemPreview extends LitElement {
                     ? html`<paper-icon-button id="animated" ?selected="${active ==
                         "animated"}" icon="ht-elements-item-preview:animated" @click=${e => {
                         this._changeActive("animated");
-                      }}></paper-icon-button>`
+                      }} aria-label="Предпросмотр Анимация"></paper-icon-button>`
                     : ""
                 }
                 ${
@@ -247,13 +248,13 @@ class HTElementsItemPreview extends LitElement {
                     ? html`<paper-icon-button id="slider" ?selected="${active ==
                         "slider"}" icon="ht-elements-item-preview:slider" @click=${e => {
                         this._changeActive("slider");
-                      }}></paper-icon-button>`
+                      }} aria-label="Предпросмотр Слайдер изображений"></paper-icon-button>`
                     : ""
                 }
                 <paper-icon-button id="image" ?selected="${active ==
                   "image"}" icon="ht-elements-item-preview:image" @click=${e => {
       this._changeActive("image");
-    }}></paper-icon-button>
+    }} aria-label="Предпросмотр Изображение"></paper-icon-button>
                 <a href="https://github.com/${
                   data.repositoryURL
                 }" target="_blank" rel="noopener">
