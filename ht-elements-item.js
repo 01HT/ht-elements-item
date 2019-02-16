@@ -244,6 +244,7 @@ class HTElementsItem extends LitElement {
         .firestore()
         .collection("items")
         .where("itemNumber", "==", itemNumber)
+        .limit(1)
         .get();
       this.loading = false;
       if (snapshot.empty) {
