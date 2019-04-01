@@ -183,7 +183,7 @@ class HTElementsItemPreview extends LitElement {
                     data.image.public_id
                   }.jpg" .image="${
                     window.cloudinaryURL
-                  }/image/upload/c_scale,f_auto,w_1024/v${data.image.version}/${
+                  }/image/upload/c_scale,f_auto,w_1500/v${data.image.version}/${
                     data.image.public_id
                   }.jpg" .size="16x9" .altText="${data.name}"></ht-image>`
                 : ""
