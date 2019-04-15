@@ -4,10 +4,11 @@ import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-iconset-svg";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
+import "./ht-elements-item-data-section.js";
 
 import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
-class HTElementsItemCategory extends LitElement {
+class HTElementsItemBlockCategory extends LitElement {
   static get styles() {
     return [
       stylesBasicWebcomponents,
@@ -33,20 +34,12 @@ class HTElementsItemCategory extends LitElement {
           text-decoration: none;
           outline: none;
         }
-
-        #empty {
-          color: var(--secondary-text-color);
-        }
-
-        [hidden] {
-          display: none;
-        }
       `
     ];
   }
 
   render() {
-    const { items } = this;
+    const { items, name } = this;
     return html`
     <iron-iconset-svg size="24" name="ht-elements-item-category">
         <svg>
@@ -57,10 +50,10 @@ class HTElementsItemCategory extends LitElement {
             </defs>
         </svg>
     </iron-iconset-svg>
+    ${
+      items.length > 0
+        ? html`<ht-elements-item-data-section .name="${name}">
     <div id="container">
-      <!--<a class="item" href="/catalog">
-        <ht-chip label="Все категории" shadow></ht-chip>
-      </a>-->
         ${repeat(
           items,
           item => html`<iron-icon icon="ht-elements-item-category:chevron-right"></iron-icon>
@@ -78,20 +71,25 @@ class HTElementsItemCategory extends LitElement {
           }</ht-chip>
             </a>`
         )}
-        <div id="empty" ?hidden="${items.length > 0}">Не указано</div>
     </div>
-`;
+    </ht-elements-item-data-section>
+`
+        : null
+    }`;
   }
 
   static get properties() {
     return {
-      items: { type: Array }
+      name: { type: String },
+      items: { type: Array },
+      data: { type: Object }
     };
   }
 
-  constructor() {
-    super();
-    this.items = [];
+  shouldUpdate(changedProperties) {
+    if (changedProperties.has("items")) return true;
+    this._setData();
+    return false;
   }
 
   async _addCategoryToItems(parentId, categories, items) {
@@ -128,8 +126,10 @@ class HTElementsItemCategory extends LitElement {
     }
   }
 
-  async _setData(categories) {
+  async _setData() {
     try {
+      let categories = this.data;
+      if (!categories) return;
       let items = [];
       await this._addCategoryToItems("root", categories, items);
       this.items = this._addHrefToItems(items);
@@ -137,10 +137,9 @@ class HTElementsItemCategory extends LitElement {
       console.log("_setData: " + error.message);
     }
   }
-
-  set data(categories) {
-    this._setData(categories);
-  }
 }
 
-customElements.define("ht-elements-item-category", HTElementsItemCategory);
+customElements.define(
+  "ht-elements-item-block-category",
+  HTElementsItemBlockCategory
+);

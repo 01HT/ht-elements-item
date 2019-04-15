@@ -8,11 +8,11 @@ import "./ht-elements-item-author.js";
 import "./ht-elements-item-sales.js";
 import "./ht-elements-item-data-section.js";
 import "./ht-elements-item-date.js";
-import "./ht-elements-item-category.js";
-import "./ht-elements-item-block-platform.js";
-import "./ht-elements-item-block-browsers.js";
-import "./ht-elements-item-block-tools.js";
+import "./ht-elements-item-block-category.js";
+import "./ht-elements-item-block-attribute-tree.js";
+import "./ht-elements-item-block-attribute-flat.js";
 import "./ht-elements-item-block-tags.js";
+
 import "./ht-elements-item-copyright.js";
 import {
   updateMetadata,
@@ -39,7 +39,11 @@ class HTElementsItem extends LitElement {
           margin-top: 32px;
         }
 
-        ht-elements-item-data-section {
+        ht-elements-item-data-section,
+        ht-elements-item-block-category,
+        ht-elements-item-block-attribute-tree,
+        ht-elements-item-block-attribute-flat,
+        ht-elements-item-block-tags {
           margin-top: 32px;
         }
 
@@ -139,35 +143,33 @@ class HTElementsItem extends LitElement {
                   }"></ht-elements-item-date>
                 </ht-elements-item-data-section>
 
-                <ht-elements-item-data-section name="Категория">
-                  <ht-elements-item-category .data="${
-                    itemData.categories
-                  }"></ht-elements-item-category>
-                </ht-elements-item-data-section>
+                <ht-elements-item-block-category .name="${"Категория"}" .data="${
+      itemData.categories
+    }"></ht-elements-item-block-category>
 
-                <ht-elements-item-data-section name="Платформа">
-                  <ht-elements-item-block-platform .data="${
-                    itemData.attributes
-                  }"></ht-elements-item-block-platform>
-                </ht-elements-item-data-section>
+                <ht-elements-item-block-attribute-tree .name="${"Направление"}" .data="${
+      itemData.attributes
+    }" .rootId="${"WXHb4meznMLCMdkb87Sa"}" .type="${"direction"}"></ht-elements-item-block-attribute-tree>
+                
+                <ht-elements-item-block-attribute-tree .name="${"Платформа"}" .data="${
+      itemData.attributes
+    }" .rootId="${"wmGspVTvzR5p6XVsL8Fd"}" .type="${"platform"}"></ht-elements-item-block-attribute-tree>
 
-                <ht-elements-item-data-section name="Совместимые браузеры">
-                  <ht-elements-item-block-browsers .data="${
-                    itemData.attributes
-                  }"></ht-elements-item-block-browsers>
-                </ht-elements-item-data-section>
+                <ht-elements-item-block-attribute-flat .name="${"Языки"}" .data="${
+      itemData.attributes
+    }" .rootId="${"yJetLXoCNTSC1M5WH5VQ"}" .type="${"languages"}"></ht-elements-item-block-attribute-flat>
 
-                <ht-elements-item-data-section name="Инструменты">
-                  <ht-elements-item-block-tools .data="${
-                    itemData.attributes
-                  }"></ht-elements-item-block-tools>
-                </ht-elements-item-data-section>
+                <ht-elements-item-block-attribute-flat .name="${"Инструменты"}" .data="${
+      itemData.attributes
+    }" .rootId="${"ryLeJ8fi7qP43Us3F3iF"}" .type="${"tools"}"></ht-elements-item-block-attribute-flat>
 
-                <ht-elements-item-data-section name="Теги">
-                  <ht-elements-item-block-tags .data="${
-                    itemData.tags
-                  }"></ht-elements-item-block-tags>
-                </ht-elements-item-data-section>
+                <ht-elements-item-block-attribute-flat .name="${"Совместимые браузеры"}" .data="${
+      itemData.attributes
+    }" .rootId="${"PQ0L62DLNzaYjKkHswxz"}" .type="${"browsers"}"></ht-elements-item-block-attribute-flat>
+
+                <ht-elements-item-block-tags .name="${"Теги"}" .data="${
+      itemData.tags
+    }"></ht-elements-item-block-tags>
 
                 <ht-elements-item-copyright .data="${
                   itemData.copyright

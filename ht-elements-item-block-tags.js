@@ -3,6 +3,7 @@ import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "@polymer/iron-icon";
 import "@01ht/ht-chip";
+import "./ht-elements-item-data-section.js";
 
 import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
@@ -23,36 +24,34 @@ class HTElementsItemBlockTags extends LitElement {
           text-decoration: none;
           outline: none;
         }
-
-        #empty {
-          color: var(--secondary-text-color);
-        }
-
-        [hidden] {
-          display: none;
-        }
       `
     ];
   }
 
   render() {
-    const { items } = this;
+    const { name, items } = this;
     return html`
-      <div id="container">
-        <div id="empty" ?hidden="${items.length > 0}">Не указано</div>
+    ${
+      items.length > 0
+        ? html`<ht-elements-item-data-section .name="${name}">
+        <div id="container"></ht-elements-item-data-section>
         ${repeat(
           items,
           item => html`<a class="item" href="/catalog?tags=${item.name}"> 
             <ht-chip .label="${item.name}" shadow></ht-chip>
           </a>`
         )}
-      </div>
+      </div></ht-elements-item-data-section>`
+        : null
+    }
 `;
   }
 
   static get properties() {
     return {
-      items: { type: Array }
+      name: { type: String },
+      items: { type: Array },
+      data: { type: Object }
     };
   }
 
@@ -62,6 +61,7 @@ class HTElementsItemBlockTags extends LitElement {
   }
 
   set data(tags) {
+    if (!tags) return;
     let items = [];
     for (let tagId in tags) {
       items.push(tags[tagId]);
