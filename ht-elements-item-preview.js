@@ -255,11 +255,15 @@ class HTElementsItemPreview extends LitElement {
                   "image"}" icon="ht-elements-item-preview:image" @click=${e => {
       this._changeActive("image");
     }} aria-label="Предпросмотр Изображение"></paper-icon-button>
-                <a href="https://github.com/${
-                  data.repositoryURL
-                }" target="_blank" rel="noopener">
+                ${
+                  data.repositoryURL !== ""
+                    ? html`<a href="https://github.com/${
+                        data.repositoryURL
+                      }" target="_blank" rel="noopener">
                     <paper-icon-button id="github" icon="ht-elements-item-preview:github"></paper-icon-button>
-                </a>
+                </a>`
+                    : null
+                }
             </div>
         </section>
     </div>
