@@ -5,6 +5,7 @@ import "./ht-elements-item-preview.js";
 import "./ht-elements-item-description.js";
 import "./ht-elements-item-buy.js";
 import "./ht-elements-item-author.js";
+import "./ht-elements-item-donation.js";
 import "./ht-elements-item-sales.js";
 import "./ht-elements-item-data-section.js";
 import "./ht-elements-item-date.js";
@@ -26,29 +27,18 @@ class HTElementsItem extends LitElement {
     return [
       styles,
       css`
-        ht-elements-item-author {
-          margin-top: 32px;
-        }
-
-        ht-elements-item-preview {
-          margin-top: 32px;
-          position: relative;
-        }
-
-        ht-elements-item-sales {
-          margin-top: 32px;
-        }
-
+        ht-elements-item-preview,
+        ht-elements-item-author,
+        ht-elements-item-donation,
+        ht-elements-item-sales,
         ht-elements-item-data-section,
         ht-elements-item-block-category,
         ht-elements-item-block-attribute-tree,
         ht-elements-item-block-attribute-flat,
-        ht-elements-item-block-tags {
-          margin-top: 32px;
-        }
-
+        ht-elements-item-block-tags,
         ht-elements-item-copyright {
           margin-top: 32px;
+          position: relative;
         }
 
         #layout {
@@ -69,7 +59,7 @@ class HTElementsItem extends LitElement {
 
         #description {
           grid-row: 2;
-          margin-top: -32px;
+          margin-top: -16px;
           overflow: auto;
         }
 
@@ -123,9 +113,19 @@ class HTElementsItem extends LitElement {
         license: itemData.license
       }
     )}"></ht-elements-item-buy>
+
+                ${
+                  itemData.donationURL
+                    ? html`<ht-elements-item-donation .data="${
+                        itemData.donationURL
+                      }"></ht-elements-item-donation>`
+                    : null
+                }
+
                 <ht-elements-item-author .data="${
                   itemData.authorData
                 }"></ht-elements-item-author>
+                
 
                 <ht-elements-item-sales .data="${
                   itemData.sales
