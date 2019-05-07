@@ -15,7 +15,8 @@ class HTElementsItemPreview extends LitElement {
     return [
       styles,
       css`
-        a {
+        a,
+        a:hover {
           display: block;
           color: inherit;
           text-decoration: none;
