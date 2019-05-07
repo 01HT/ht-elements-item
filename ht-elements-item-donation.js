@@ -9,7 +9,8 @@ class HTElementsItemDonation extends LitElement {
     return [
       styles,
       css`
-        a {
+        a,
+        a:hover {
           display: block;
           text-decoration: none;
         }
