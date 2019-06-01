@@ -219,7 +219,7 @@ class HTElementsItemPreview extends LitElement {
                    ? html`<a href="${
                        data.demoURL
                      }" target="_blank" ?hidden="${data.demoURL ===
-                       ""}" rel="noopener">
+                       ""}" rel="noopener nofollow">
                 <paper-button raised><iron-icon icon="ht-elements-item-preview:remove-red-eye"></iron-icon>Просмотр</paper-button>
             </a>`
                    : html`<paper-button raised disabled><iron-icon icon="ht-elements-item-preview:remove-red-eye"></iron-icon>Просмотр</paper-button>`
@@ -259,7 +259,7 @@ class HTElementsItemPreview extends LitElement {
                   data.repositoryURL !== ""
                     ? html`<a href="${
                         data.repositoryURL
-                      }" target="_blank" rel="noopener">
+                      }" target="_blank" rel="noopener nofollow">
                     <paper-icon-button id="git" icon="ht-elements-item-preview:git"></paper-icon-button>
                 </a>`
                     : null
