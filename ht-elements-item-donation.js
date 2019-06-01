@@ -69,7 +69,7 @@ class HTElementsItemDonation extends LitElement {
               Поддержите автора, если элемент оказался вам полезен. Ваши пожертвования - отличный мотиватор для поддержки существующих и реализации новых проектов автора.
             </div>
             <div id="actions">
-              <a href="${data}" target="_blank" rel="noopener">
+              <a href="${data}" target="_blank" rel="noopener nofollow">
                 <paper-button raised>
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 401.601 401.6" style="enable-background:new 0 0 401.601 401.6;" xml:space="preserve" class=""><g><g>
                     <g>
