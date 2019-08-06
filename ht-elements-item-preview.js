@@ -178,11 +178,11 @@ class HTElementsItemPreview extends LitElement {
             ${
               active === "image"
                 ? html`<ht-image .placeholder="${
-                    window.cloudinaryURL
+                    window.appConfig.cloudinary.url
                   }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
                     data.image.public_id
                   }.jpg" .image="${
-                    window.cloudinaryURL
+                    window.appConfig.cloudinary.url
                   }/image/upload/c_scale,f_auto,w_1500/v${data.image.version}/${
                     data.image.public_id
                   }.jpg" .size="16x9" .altText="${data.name}"></ht-image>`
