@@ -222,9 +222,11 @@ class HTElementsItem extends LitElement {
     }
     updateMetadata({
       title: `${this.itemData.name} | ${this.itemData.authorData.displayName}`,
-      image: `${window.cloudinaryURL}/image/upload/c_scale,f_auto,w_512/v${
-        this.itemData.image.version
-      }/${this.itemData.image.public_id}.jpg`,
+      image: `${
+        window.appConfig.cloudinary.url
+      }/image/upload/c_scale,f_auto,w_512/v${this.itemData.image.version}/${
+        this.itemData.image.public_id
+      }.jpg`,
       imageAlt: `${this.itemData.name}`,
       canonical: `https://elements.01.ht/item/${this.itemData.nameInURL}/${
         this.itemData.itemNumber
