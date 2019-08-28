@@ -228,7 +228,7 @@ class HTElementsItem extends LitElement {
         this.itemData.image.public_id
       }.jpg`,
       imageAlt: `${this.itemData.name}`,
-      canonical: `https://elements.01.ht/item/${this.itemData.nameInURL}/${
+      canonical: `${window.origin}/item/${this.itemData.nameInURL}/${
         this.itemData.itemNumber
       }`,
       description: description
